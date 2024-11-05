@@ -1,0 +1,74 @@
+//
+//  Localizable.strings
+//  moneycat_beta
+//
+//  Created by Jonathan Shih on 2024/11/1.
+//
+
+// AddCategoryView
+"Add_Category" = "新增類別";
+
+// AppInfoView
+"App_Info_Title" = "應用程式資訊";
+
+// LanguageSettingsView
+"Language_Settings_Title" = "語言設定";
+"Select_Language" = "選擇語言";
+"Language_English" = "英文";
+"Language_Chinese_Simplified" = "中文 (簡體)";
+"Language_Chinese_Traditional" = "中文 (繁體)";
+"Language_French" = "法文";
+"Language_Spanish" = "西班牙文";
+"Language_Japanese" = "日文";
+
+// NotificationSettingsView
+"Notification_Settings_Title" = "通知設定";
+
+// PrivacyPolicyView
+"Privacy_Policy_Title" = "隱私政策";
+
+// SettingsView
+"Settings_Title" = "設定";
+"General_Settings_Title" = "一般設定";
+"Dark_Mode" = "深色模式";
+"Notification_Settings" = "通知設定";
+"Language_Settings" = "語言設定";
+"Privacy_Policy" = "隱私政策";
+"Manage_Data" = "管理資料";
+"Erase_All_Data" = "刪除所有資料";
+"Erase_All_Data_Confirmation" = "您確定要刪除所有資料嗎？此操作無法還原。";
+"Erase_Button" = "刪除";
+"Cancel_Button" = "取消";
+
+// AnalyzeView
+"Analyze_Title" = "分析";
+"Submit_Analysis" = "提交分析";
+"Question_1" = "1. 購買此商品後，您對它感到滿意嗎？";
+"Question_2" = "2. 如果沒有購買此商品，您會感到不滿意嗎？";
+"Question_3" = "3. 購買此商品後，您感到開心或滿足嗎？";
+"Question_4" = "4. 如果沒有購買此商品，您會感到難過或後悔嗎？";
+"Question_5" = "5. 此商品是否符合您的期望價值？";
+"Question_6" = "6. 若此商品未超出您的期望，會影響您的滿意度嗎？";
+"Question_7" = "7. 購買此商品後，對您的生活有影響嗎？";
+"Question_8" = "8. 如果沒有購買此商品，您的生活會受到影響嗎？";
+
+// ReportsView
+"Reports_Title" = "報告";
+"Analyze_Button" = "分析";
+"No_Want_Expenses" = "沒有可顯示的「想要」支出。";
+"No_Analyzed_Want_Expenses" = "沒有分析過的「想要」支出可顯示。";
+
+// Quadrant Labels for ReportsView
+"Quadrant_Attractive" = "吸引力";
+"Quadrant_Indifferent" = "無差異";
+"Quadrant_Must" = "必須";
+"Quadrant_One_Dimensional" = "單維";
+
+// AddExpenseView
+"Add_Expense_Title" = "新增支出";
+"Expense_Amount" = "金額";
+"Expense_Date" = "日期";
+"Expense_Category" = "類別";
+"Expense_Note" = "備註";
+"Save_Expense" = "儲存支出";
+"Cancel" = "取消";

@@ -1,0 +1,65 @@
+//
+//  Localizable.strings
+//  moneycat_beta
+//
+//  Created by Jonathan Shih on 2024/11/1.
+//
+
+// AddCategoryView
+"Add_Category" = "Add Category";
+
+// AppInfoView
+"App_Info_Title" = "App Info";
+
+// LanguageSettingsView
+"Language_Settings_Title" = "Language Settings";
+"Select_Language" = "Select Language";
+"Language_English" = "English";
+"Language_Chinese_Simplified" = "中文 (Simplified)";
+"Language_Chinese_Traditional" = "中文 (Traditional)";
+"Language_French" = "Français";
+"Language_Spanish" = "Español";
+"Language_Japanese" = "日本語";
+
+// NotificationSettingsView
+"Notification_Settings_Title" = "Notification Settings";
+
+// PrivacyPolicyView
+"Privacy_Policy_Title" = "Privacy Policy";
+
+// SettingsView
+"Settings_Title" = "Settings";
+"General_Settings_Title" = "General Settings";
+"Dark_Mode" = "Dark Mode";
+"Notification_Settings" = "Notification Settings";
+"Language_Settings" = "Language Settings";
+"Privacy_Policy" = "Privacy Policy";
+"Manage_Data" = "Manage Data";
+"Erase_All_Data" = "Erase All Data";
+"Erase_All_Data_Confirmation" = "Are you sure you want to remove all data? This action cannot be undone.";
+"Erase_Button" = "Erase";
+"Cancel_Button" = "Cancel";
+
+// AnalyzeView
+"Analyze_Title" = "Analyze";
+"Submit_Analysis" = "Submit Analysis";
+"Question_1" = "1. After purchasing this item, are you satisfied with it?";
+"Question_2" = "2. If you did not purchase this item, would you feel dissatisfied?";
+"Question_3" = "3. After purchasing this item, do you feel happy or fulfilled?";
+"Question_4" = "4. If you did not purchase this item, would you feel sad or regretful?";
+"Question_5" = "5. Does this item meet the value you expected it to have?";
+"Question_6" = "6. If this item does not exceed your expectations, does it affect your satisfaction?";
+"Question_7" = "7. After purchasing this item, has it impacted your life?";
+"Question_8" = "8. If you did not purchase this item, would your life be affected?";
+
+// ReportsView
+"Reports_Title" = "Reports";
+"Analyze_Button" = "Analyze";
+"No_Want_Expenses" = "No 'Want' expenses to display.";
+"No_Analyzed_Want_Expenses" = "No analyzed 'Want' expenses to display.";
+
+// Quadrant Labels for ReportsView
+"Quadrant_Attractive" = "Attractive";
+"Quadrant_Indifferent" = "Indifferent";
+"Quadrant_Must" = "Must";
+"Quadrant_One_Dimensional" = "One-Dimensional";

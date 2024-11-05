@@ -1,0 +1,97 @@
+//
+//  Localizable.strings
+//  moneycat_beta
+//
+//  Created by Jonathan Shih on 2024/11/1.
+//
+
+/* AddCategoryView */
+"Add_Category" = "カテゴリを追加";
+
+/* AppInfoView */
+"App_Info_Title" = "アプリ情報";
+
+/* LanguageSettingsView */
+"Language_Settings_Title" = "言語設定";
+"Select_Language" = "言語を選択";
+"Language_English" = "英語";
+"Language_Chinese_Simplified" = "簡体字中国語";
+"Language_Chinese_Traditional" = "繁体字中国語";
+"Language_French" = "フランス語";
+"Language_Spanish" = "スペイン語";
+"Language_Japanese" = "日本語";
+
+/* NotificationSettingsView */
+"Notification_Settings_Title" = "通知設定";
+
+/* PrivacyPolicyView */
+"Privacy_Policy_Title" = "プライバシーポリシー";
+
+/* SettingsView */
+"General_Settings_Title" = "一般設定";
+"Dark_Mode" = "ダークモード";
+"Erase_All_Data" = "すべてのデータを削除";
+"Erase_All_Data_Confirmation" = "本当にすべてのデータを削除しますか？この操作は元に戻せません。";
+"Erase_Button" = "削除";
+"Cancel_Button" = "キャンセル";
+
+/* AnalyzeView */
+"Analyze_Title" = "分析";
+"Submit_Analysis" = "分析を送信";
+"Question_1" = "1. この商品を購入後、満足していますか？";
+"Question_2" = "2. この商品を購入しなかった場合、不満を感じますか？";
+"Question_3" = "3. この商品を購入後、幸せや充実感を感じますか？";
+"Question_4" = "4. この商品を購入しなかった場合、悲しみや後悔を感じますか？";
+"Question_5" = "5. この商品は期待していた価値を満たしていますか？";
+"Question_6" = "6. この商品が期待を超えない場合、満足度に影響しますか？";
+"Question_7" = "7. この商品を購入後、生活に影響がありましたか？";
+"Question_8" = "8. この商品を購入しなかった場合、生活に影響がありますか？";
+
+/* SettingsView */
+"Settings_Title" = "設定";
+"General_Settings" = "一般設定";
+"Add_Category" = "カテゴリを追加";
+"Dark_Mode" = "ダークモード";
+"Notification_Settings" = "通知設定";
+"Language_Settings" = "言語設定";
+"Privacy_Policy" = "プライバシーポリシー";
+"Manage_Data" = "データ管理";
+"Erase_All_Data" = "すべてのデータを削除";
+"Erase_All_Data_Alert_Title" = "すべてのデータを削除";
+"Erase_All_Data_Alert_Message" = "本当にすべてのデータを削除しますか？この操作は元に戻せません。";
+"Erase_Alert_Confirm" = "削除";
+"Erase_Alert_Cancel" = "キャンセル";
+
+/* LanguageSettingsView */
+"Language_Settings_Title" = "言語設定";
+"Select_Language" = "言語を選択";
+
+/* AppInfoView */
+"App_Info_Title" = "アプリ情報";
+
+/* NotificationSettingsView */
+"Notification_Settings_Title" = "通知設定";
+
+/* PrivacyPolicyView */
+"Privacy_Policy_Title" = "プライバシーポリシー";
+
+/* ReportsView */
+"Reports_Title" = "レポート";
+"Analyze_Button" = "分析";
+"No_Want_Expenses" = "表示する「欲しい」費用がありません。";
+"No_Analyzed_Want_Expenses" = "分析された「欲しい」費用がありません。";
+
+/* Quadrant Labels */
+"Quadrant_Attractive" = "魅力的";
+"Quadrant_Indifferent" = "無関心";
+"Quadrant_Must" = "必要";
+"Quadrant_One_Dimensional" = "一面的";
+
+// AddExpenseView
+"Add_Expense_Title" = "支出を追加";
+"Expense_Amount" = "金額";
+"Expense_Date" = "日付";
+"Expense_Category" = "カテゴリ";
+"Expense_Note" = "ノート";
+"Save_Expense" = "保存";
+"Cancel" = "キャンセル";
