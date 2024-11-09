@@ -54,8 +54,10 @@ class RealmManager: ObservableObject {
                 try localRealm.write {
                     expense.betterCoefficient = better
                     expense.worseCoefficient = worse
+                    expense.dimension = determineDimensionForExpense(expense)
                     print("Updated Expense \(expense.note): Better = \(better), Worse = \(worse)")
                 }
+                loadExpenses()
             } catch {
                 print("Error updating expense: \(error.localizedDescription)")
             }
@@ -123,14 +125,17 @@ class RealmManager: ObservableObject {
         }
     }
     func determineDimensionForExpense(_ expense: Expense) -> String {
-            if expense.amount <= 50 {
-                return "Basic Needs"
-            } else if expense.amount > 50 && expense.amount <= 100 {
-                return "Performance Needs"
-            } else if expense.amount > 100 && expense.amount <= 150 {
-                return "Excitement Needs"
-            } else {
-                return "Indifferent Needs"
-            }
+        let dimension: String
+        if expense.amount <= 50 {
+            dimension = "Basic Needs"
+        } else if expense.amount > 50 && expense.amount <= 100 {
+            dimension = "Performance Needs"
+        } else if expense.amount > 100 && expense.amount <= 150 {
+            dimension = "Excitement Needs"
+        } else {
+            dimension = "Indifferent Needs"
         }
+        print("Determined dimension for expense \(expense.note): \(dimension)")
+        return dimension
+    }
 }

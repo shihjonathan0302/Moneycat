@@ -20,6 +20,6 @@ class Expense: Object, ObjectKeyIdentifiable {
     @Persisted var betterCoefficient: Double = 0.0
     @Persisted var worseCoefficient: Double = 0.0
     
-    @Persisted var dimension: String = "" // Ensure this property is added
+    @Persisted var dimension: String = "Unknown" // Ensure this property is added
 
 }
