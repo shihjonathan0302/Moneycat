@@ -24,7 +24,7 @@ class RealmManager: ObservableObject {
 
     func openRealm() {
         do {
-            let config = Realm.Configuration(schemaVersion: 2)
+            let config = Realm.Configuration(schemaVersion: 3)
             Realm.Configuration.defaultConfiguration = config
             localRealm = try Realm()
             print("Realm opened successfully")
@@ -122,4 +122,15 @@ class RealmManager: ObservableObject {
             }
         }
     }
+    func determineDimensionForExpense(_ expense: Expense) -> String {
+            if expense.amount <= 50 {
+                return "Basic Needs"
+            } else if expense.amount > 50 && expense.amount <= 100 {
+                return "Performance Needs"
+            } else if expense.amount > 100 && expense.amount <= 150 {
+                return "Excitement Needs"
+            } else {
+                return "Indifferent Needs"
+            }
+        }
 }
