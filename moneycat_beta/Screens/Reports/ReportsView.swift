@@ -84,11 +84,16 @@ struct ReportsView: View {
     }
 
     // Helper function to find the dominant dimension
-        func findDominantDimension(in expenses: [Expense]) -> String? {
-            let dimensionCounts = Dictionary(grouping: expenses, by: { $0.dimension }).mapValues { $0.count }
-            print("Dimension Counts: \(dimensionCounts)") // Debug print to check counts
-            return dimensionCounts.max { $0.value < $1.value }?.key
-        }
+    // In ReportsView.swift
+     func findDominantDimension(in expenses: [Expense]) -> String? {
+        // Filter out expenses where dimension is still empty or "Unknown"
+        let analyzedExpenses = expenses.filter { !$0.dimension.isEmpty }
+        guard !analyzedExpenses.isEmpty else { return nil } // Return nil if no analyzed expenses
+
+        let dimensionCounts = Dictionary(grouping: analyzedExpenses, by: { $0.dimension })
+                              .mapValues { $0.count }
+        return dimensionCounts.max { $0.value < $1.value }?.key
+    }
 
     // Function to provide recommendation text based on dimension
     func recommendationText(for dimension: String) -> String {

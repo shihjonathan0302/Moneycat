@@ -107,6 +107,8 @@ struct AddExpenseView: View {
                 newExpense.category = selectedCategory
                 newExpense.date = date
                 newExpense.needOrWant = needOrWant
+                newExpense.dimension = ""  // Initialize dimension as empty
+
 
                 realmManager.submitExpense(newExpense)
                 expenseNote = ""

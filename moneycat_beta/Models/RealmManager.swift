@@ -48,28 +48,28 @@ class RealmManager: ObservableObject {
         }
     }
 
-    func updateExpense(expense: Expense, better: Double, worse: Double) {
-        if let localRealm = localRealm {
-            do {
-                try localRealm.write {
-                    expense.betterCoefficient = better
-                    expense.worseCoefficient = worse
-                    expense.dimension = determineDimensionForExpense(expense)
-                    print("Updated Expense \(expense.note): Better = \(better), Worse = \(worse)")
+    func updateExpense(expense: Expense, better: Double, worse: Double, dimension: String) {
+            if let localRealm = localRealm {
+                do {
+                    try localRealm.write {
+                        expense.betterCoefficient = better
+                        expense.worseCoefficient = worse
+                        expense.dimension = calculateDimension(better: better, worse: worse)
+                        localRealm.add(expense, update: .modified)
+                    }
+                    print("Updated Expense: \(expense.note), Better: \(better), Worse: \(worse), Dimension: \(dimension)")
+                } catch {
+                    print("Error updating expense: \(error.localizedDescription)")
                 }
-                loadExpenses()
-            } catch {
-                print("Error updating expense: \(error.localizedDescription)")
             }
         }
-    }
 
     func loadExpenses() {
         if let localRealm = localRealm {
             let allExpenses = localRealm.objects(Expense.self).sorted(byKeyPath: "date")
             expenses = Array(allExpenses)
             for expense in expenses {
-                print("Expense: \(expense.note), Better: \(expense.betterCoefficient), Worse: \(expense.worseCoefficient)")
+                print("Expense: \(expense.note), Amount: \(expense.amount), Date: \(expense.date), NeedOrWant: \(expense.needOrWant), Better: \(expense.betterCoefficient), Worse: \(expense.worseCoefficient), Dimension: \(expense.dimension)")
             }
             print("Loaded \(expenses.count) expenses")
         }
@@ -117,13 +117,14 @@ class RealmManager: ObservableObject {
                 try localRealm.write {
                     localRealm.add(expense)
                     loadExpenses()
-                    print("Expense submitted: \(expense.note)")
                 }
+                print("Expense submitted: \(expense.note)")
             } catch {
                 print("Error submitting expense to Realm: \(error.localizedDescription)")
             }
         }
     }
+    
     func determineDimensionForExpense(_ expense: Expense) -> String {
         let dimension: String
         if expense.amount <= 50 {
@@ -138,4 +139,17 @@ class RealmManager: ObservableObject {
         print("Determined dimension for expense \(expense.note): \(dimension)")
         return dimension
     }
+    
+    func calculateDimension(better: Double, worse: Double) -> String {
+        if better > 50 && worse < -50 {
+            return "Excitement Needs"
+        } else if better > 50 {
+            return "Attractive"
+        } else if worse < -50 {
+            return "Must"
+        } else {
+            return "Indifferent Needs"
+        }
+    }
 }
+
