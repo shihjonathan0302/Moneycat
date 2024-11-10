@@ -55,7 +55,7 @@ struct AnalyzeView: View {
                 let worseCoefficient = (-1) * (expectationScore + mustHaveScore) / (expectationScore + attractionScore + mustHaveScore)
 
                 // Determine dimension based on the calculated coefficients
-                let calculatedDimension = determineDimension(betterCoefficient: betterCoefficient, worseCoefficient: worseCoefficient)
+                let calculatedDimension = determineDimension(betterCoefficient: betterCoefficient * 100, worseCoefficient: worseCoefficient * 100)
 
                 // Update expense in Realm with better, worse, and dimension
                 realmManager.updateExpense(expense: expense, better: betterCoefficient * 100, worse: worseCoefficient * 100, dimension: calculatedDimension)
@@ -79,14 +79,14 @@ struct AnalyzeView: View {
 
     // Determine dimension based on better and worse coefficients
     func determineDimension(betterCoefficient: Double, worseCoefficient: Double) -> String {
-        if betterCoefficient >= 0.5 && worseCoefficient <= -0.5 {
-            return "Excitement Needs"
-        } else if betterCoefficient >= 0.5 {
-            return "Performance Needs"
-        } else if worseCoefficient <= -0.5 {
-            return "Basic Needs"
+        if betterCoefficient > 50 && worseCoefficient < -50 {
+            return "Attractive"
+        } else if betterCoefficient > 50 {
+            return "One-Dimensional"
+        } else if worseCoefficient < -50 {
+            return "Must"
         } else {
-            return "Indifferent Needs"
+            return "Indifferent"
         }
     }
 }

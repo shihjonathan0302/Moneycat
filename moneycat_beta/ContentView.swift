@@ -12,9 +12,9 @@ struct ContentView: View {
 
     var body: some View {
         TabView {
-            SocialView()
-                .tabItem { Label("Social", systemImage: "person.bubble.fill") }
-                .onAppear { print("Social View Loaded") }  // <--- Add this line
+//            SocialView()
+//                .tabItem { Label("Social", systemImage: "person.bubble.fill") }
+//                .onAppear { print("Social View Loaded") }  // <--- Add this line
 
             ReportsView()
                 .tabItem { Label("Reports", systemImage: "chart.xyaxis.line") }

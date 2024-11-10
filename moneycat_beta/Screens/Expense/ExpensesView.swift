@@ -25,26 +25,39 @@ struct ExpensesView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal)
             
-            // Use BarChartView instead of PieChartView
-            if let chartData = generateChartData(for: selectedTimeRange) {
-                BarChartView(data: chartData) // Ensure BarChartView is properly defined
-                    .frame(height: 250)
-                    .padding()
-            } else {
-                Text("No expenses to display. Please add some expenses.") // More user-friendly message
-                    .padding()
-            }
-
-            List(realmManager.expenses) { expense in
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(expense.note)
-                        Text("Amount: \(expense.amount, specifier: "%.0f")")
-                        Text("Category: \(expense.category?.name ?? "Unknown")")
+            // Add a ScrollView to handle both chart and list
+            ScrollView {
+                VStack {
+                    // Use BarChartView instead of PieChartView
+                    if let chartData = generateChartData(for: selectedTimeRange) {
+                        VerticalBarChartView(data: chartData) // Ensure BarChartView is properly defined
+                            .frame(height: 250)
+                            .padding()
+                    } else {
+                        Text("No expenses to display. Please add some expenses.")
+                            .padding()
                     }
-                    Spacer()
+
+                    // Divider to separate chart and list
+                    Divider()
+                        .padding(.vertical)
+
+                    // List of expenses below the chart
+                    ForEach(realmManager.expenses) { expense in
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(expense.note)
+                                Text("Amount: \(expense.amount, specifier: "%.0f")")
+                                Text("Category: \(expense.category?.name ?? "Unknown")")
+                            }
+                            Spacer()
+                        }
+                        .padding(.vertical, 4)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.horizontal)
+                    }
                 }
-                .padding(.vertical, 4)
             }
         }
         .padding()
@@ -62,7 +75,7 @@ struct ExpensesView: View {
         return groupedByCategory.map { (category, expenses) in
             let categoryTotal = expenses.reduce(0) { $0 + $1.amount }
             let percentage = categoryTotal / total
-            return ChartSegmentData(category: category, percentage: percentage, color: .red) // Fixed red color
+            return ChartSegmentData(category: category, amount: percentage, color: .orange) // Adjust color as needed
         }
     }
 }

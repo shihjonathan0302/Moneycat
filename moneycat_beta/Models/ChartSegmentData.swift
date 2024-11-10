@@ -10,6 +10,6 @@ import SwiftUI
 struct ChartSegmentData: Identifiable {
     let id = UUID()
     var category: String
-    var percentage: Double
+    var amount: Double // Updated to store the amount rather than percentage
     var color: Color
 }

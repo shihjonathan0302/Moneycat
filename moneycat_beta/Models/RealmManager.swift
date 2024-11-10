@@ -47,23 +47,22 @@ class RealmManager: ObservableObject {
             }
         }
     }
-
+    
     func updateExpense(expense: Expense, better: Double, worse: Double, dimension: String) {
-            if let localRealm = localRealm {
-                do {
-                    try localRealm.write {
-                        expense.betterCoefficient = better
-                        expense.worseCoefficient = worse
-                        expense.dimension = calculateDimension(better: better, worse: worse)
-                        localRealm.add(expense, update: .modified)
-                    }
-                    print("Updated Expense: \(expense.note), Better: \(better), Worse: \(worse), Dimension: \(dimension)")
-                } catch {
-                    print("Error updating expense: \(error.localizedDescription)")
+        if let localRealm = localRealm {
+            do {
+                try localRealm.write {
+                    expense.betterCoefficient = better
+                    expense.worseCoefficient = worse
+                    expense.dimension = dimension  // Update the dimension here
+                    localRealm.add(expense, update: .modified)
                 }
+                print("Updated Expense: \(expense.note), Better: \(better), Worse: \(worse), Dimension: \(dimension)")
+            } catch {
+                print("Error updating expense: \(error.localizedDescription)")
             }
         }
-
+    }
     func loadExpenses() {
         if let localRealm = localRealm {
             let allExpenses = localRealm.objects(Expense.self).sorted(byKeyPath: "date")
@@ -125,31 +124,16 @@ class RealmManager: ObservableObject {
         }
     }
     
-    func determineDimensionForExpense(_ expense: Expense) -> String {
-        let dimension: String
-        if expense.amount <= 50 {
-            dimension = "Basic Needs"
-        } else if expense.amount > 50 && expense.amount <= 100 {
-            dimension = "Performance Needs"
-        } else if expense.amount > 100 && expense.amount <= 150 {
-            dimension = "Excitement Needs"
-        } else {
-            dimension = "Indifferent Needs"
-        }
-        print("Determined dimension for expense \(expense.note): \(dimension)")
-        return dimension
-    }
-    
+    // Calculate dimension based on better and worse coefficients
     func calculateDimension(better: Double, worse: Double) -> String {
         if better > 50 && worse < -50 {
-            return "Excitement Needs"
-        } else if better > 50 {
             return "Attractive"
+        } else if better > 50 {
+            return "One-Dimensional"
         } else if worse < -50 {
             return "Must"
         } else {
-            return "Indifferent Needs"
+            return "Indifferent"
         }
     }
 }
-

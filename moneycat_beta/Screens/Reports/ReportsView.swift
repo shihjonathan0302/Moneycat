@@ -49,7 +49,7 @@ struct ReportsView: View {
                                     .foregroundColor(.primary)
                                     .padding(.top, 20)
 
-                                Text(recommendationText(for: dimension))
+                                Text(recommendationDetail(for: dimension))
                                     .font(.body)
                                     .foregroundColor(.secondary)
                                     .padding()
@@ -84,8 +84,7 @@ struct ReportsView: View {
     }
 
     // Helper function to find the dominant dimension
-    // In ReportsView.swift
-     func findDominantDimension(in expenses: [Expense]) -> String? {
+    func findDominantDimension(in expenses: [Expense]) -> String? {
         // Filter out expenses where dimension is still empty or "Unknown"
         let analyzedExpenses = expenses.filter { !$0.dimension.isEmpty }
         guard !analyzedExpenses.isEmpty else { return nil } // Return nil if no analyzed expenses
@@ -95,20 +94,31 @@ struct ReportsView: View {
         return dimensionCounts.max { $0.value < $1.value }?.key
     }
 
-    // Function to provide recommendation text based on dimension
-    func recommendationText(for dimension: String) -> String {
+    // Function to provide recommendation details (criteria and suggestion) based on dimension
+    func recommendationDetail(for dimension: String) -> String {
         switch dimension {
-        case "Basic Needs":
-            return "These are essential expenses. Ensure they are managed within your budget."
-        case "Performance Needs":
-            return "Consider whether the expense offers value proportional to the benefit."
-        case "Excitement Needs":
-            return "Budget for these to avoid impulse purchases. Moderate as necessary."
-        case "Indifferent Needs":
-            return "Consider reducing these as they do not greatly impact your quality of life."
+        case "Attractive":
+            return """
+            **Criteria**: High impact on satisfaction but not critical.
+            **Suggestion**: These expenses enhance quality of life. Allocate budget wisely but avoid overindulgence.
+            """
+        case "Must":
+            return """
+            **Criteria**: Essential and necessary for basic needs.
+            **Suggestion**: Manage these expenses carefully as they are unavoidable but essential.
+            """
+        case "One-Dimensional":
+            return """
+            **Criteria**: Provides direct, expected value without added delight.
+            **Suggestion**: Focus on the value of these expenses, ensuring cost-effectiveness.
+            """
+        case "Indifferent":
+            return """
+            **Criteria**: Low impact on satisfaction and can be reduced.
+            **Suggestion**: Consider cutting down on these expenses, as they add minimal value to your lifestyle.
+            """
         default:
             return "No specific recommendation."
         }
     }
 }
-
