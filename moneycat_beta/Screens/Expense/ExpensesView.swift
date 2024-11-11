@@ -24,41 +24,35 @@ struct ExpensesView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal)
+
+            // Chart displayed outside of the List
+            if let chartData = generateChartData(for: selectedTimeRange) {
+                VerticalBarChartView(data: chartData) // Ensure BarChartView is properly defined
+                    .frame(height: 250)
+                    .padding()
+            } else {
+                Text("No expenses to display. Please add some expenses.")
+                    .padding()
+            }
+
+            // Divider to separate chart and list
+            Divider()
+                .padding(.vertical)
             
-            // Add a ScrollView to handle both chart and list
-            ScrollView {
-                VStack {
-                    // Use BarChartView instead of PieChartView
-                    if let chartData = generateChartData(for: selectedTimeRange) {
-                        VerticalBarChartView(data: chartData) // Ensure BarChartView is properly defined
-                            .frame(height: 250)
-                            .padding()
-                    } else {
-                        Text("No expenses to display. Please add some expenses.")
-                            .padding()
+            // Expenses list
+            List {
+                ForEach(realmManager.expenses) { expense in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(expense.note)
+                            .font(.headline)
+                        Text("Amount: \(expense.amount, specifier: "%.0f")")
+                        Text("Category: \(expense.category?.name ?? "Unknown")")
+                            .foregroundColor(.secondary)
                     }
-
-                    // Divider to separate chart and list
-                    Divider()
-                        .padding(.vertical)
-
-                    // List of expenses below the chart
-                    ForEach(realmManager.expenses) { expense in
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(expense.note)
-                                Text("Amount: \(expense.amount, specifier: "%.0f")")
-                                Text("Category: \(expense.category?.name ?? "Unknown")")
-                            }
-                            Spacer()
-                        }
-                        .padding(.vertical, 4)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                        .padding(.horizontal)
-                    }
+                    .padding(.vertical, 8)
                 }
             }
+            .listStyle(PlainListStyle()) // Makes it look more like a plain list
         }
         .padding()
     }
