@@ -49,14 +49,16 @@ struct ReportsView: View {
                                     .font(.headline)
                                     .foregroundColor(.primary)
                                     .padding(.top, 20)
+                                    .padding(.leading, 16) // Move "Recommendation" text inward
+
 
                                 Text(recommendationDetail(for: dimension))
                                     .font(.body)
                                     .foregroundColor(.secondary)
                                     .padding()
-                                    .background(Color(.systemGray6))
+                                    .background(Color.white)
                                     .cornerRadius(8)
-                                    .padding(.horizontal)
+                                    .padding(.horizontal, 16) // Increased padding from the left and right
                             }
                         } else {
                             Text("No dominant expense type identified.")
@@ -77,7 +79,7 @@ struct ReportsView: View {
                 Spacer()
             }
             .navigationTitle("Reports")
-            .background(Color.white.ignoresSafeArea())
+            .background(Color(.systemGray6).ignoresSafeArea()) // Set light gray background for the entire view
             .navigationDestination(isPresented: $showAnalyzeList) {
                 AnalyzeExpenseListView(resetToRoot: $resetToRoot)
             }
@@ -92,9 +94,8 @@ struct ReportsView: View {
 
     // Helper function to find the dominant dimension
     func findDominantDimension(in expenses: [Expense]) -> String? {
-        // Filter out expenses where dimension is still empty or "Unknown"
         let analyzedExpenses = expenses.filter { !$0.dimension.isEmpty }
-        guard !analyzedExpenses.isEmpty else { return nil } // Return nil if no analyzed expenses
+        guard !analyzedExpenses.isEmpty else { return nil }
 
         let dimensionCounts = Dictionary(grouping: analyzedExpenses, by: { $0.dimension })
                               .mapValues { $0.count }
@@ -106,23 +107,23 @@ struct ReportsView: View {
         switch dimension {
         case "Attractive":
             return """
-            **Criteria**: High impact on satisfaction but not critical.
-            **Suggestion**: These expenses enhance quality of life. Allocate budget wisely but avoid overindulgence.
+            Criteria: High impact on satisfaction but not critical.
+            Suggestion: These expenses enhance quality of life. Allocate budget wisely but avoid overindulgence.
             """
         case "Must":
             return """
-            **Criteria**: Essential and necessary for basic needs.
-            **Suggestion**: Manage these expenses carefully as they are unavoidable but essential.
+            Criteria: Essential and necessary for basic needs.
+            Suggestion: Manage these expenses carefully as they are unavoidable but essential.
             """
         case "One-Dimensional":
             return """
-            **Criteria**: Provides direct, expected value without added delight.
-            **Suggestion**: Focus on the value of these expenses, ensuring cost-effectiveness.
+            Criteria: Provides direct, expected value without added delight.
+            Suggestion: Focus on the value of these expenses, ensuring cost-effectiveness.
             """
         case "Indifferent":
             return """
-            **Criteria**: Low impact on satisfaction and can be reduced.
-            **Suggestion**: Consider cutting down on these expenses, as they add minimal value to your lifestyle.
+            Criteria: Low impact on satisfaction and can be reduced.
+            Suggestion: Consider cutting down on these expenses, as they add minimal value to your lifestyle.
             """
         default:
             return "No specific recommendation."

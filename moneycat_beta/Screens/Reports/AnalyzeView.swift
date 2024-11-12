@@ -75,6 +75,7 @@ struct AnalyzeView: View {
                 }
             }
             .listStyle(InsetGroupedListStyle())
+            .padding(.horizontal, -10) // Reduce padding to make list appear wider
             .background(Color(.systemGray6)) // Set entire view background to system gray
             .padding(.horizontal)
         }

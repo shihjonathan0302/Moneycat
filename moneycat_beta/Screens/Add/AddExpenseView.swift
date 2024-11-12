@@ -18,12 +18,12 @@ struct AddExpenseView: View {
 
     var body: some View {
         VStack {
-            // Change "Add" to match "Settings" style
-            Text("Add")
-                .font(.system(size: 24, weight: .semibold, design: .rounded))  // Matched to Settings style
-                .foregroundColor(.primary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding([.leading, .top])
+//            // Change "Add" to match "Settings" style
+//            Text("Add")
+//                .font(.system(size: 24, weight: .semibold, design: .rounded))  // Matched to Settings style
+//                .foregroundColor(.primary)
+//                .frame(maxWidth: .infinity, alignment: .leading)
+//                .padding([.leading, .top])
 
             // Updated form with flat design
             VStack(spacing: 20) {

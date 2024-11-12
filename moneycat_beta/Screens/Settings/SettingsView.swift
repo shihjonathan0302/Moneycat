@@ -12,9 +12,8 @@ struct SettingsView: View {
     @State private var showAlert = false
 
     var body: some View {
-        NavigationView {
-            List {
-                Section(header: Text("General Settings")) {
+        List {
+            Section(header: Text("General Settings")) {
                 NavigationLink(destination: AddCategoryView()) {
                     Text("Add Category")
                 }
@@ -28,55 +27,52 @@ struct SettingsView: View {
                     Text("Notification Preferences")
                 }
             }
-                
-                Section(header: Text("Accounts")) {
-                    NavigationLink(destination: UserProfileView()) {
-                        Text("User Profile")
-                    }
-                    NavigationLink(destination: AccountManagementView()) {
-                        Text("Account Management")
-                    }
-                }
-                
-                
 
-                Section(header: Text("App Preferences")) {
-                    NavigationLink(destination: FeedbackView()) {
-                        Text("Send Feedback")
-                    }
-                    NavigationLink(destination: SupportView()) {
-                        Text("Support")
-                    }
-                    NavigationLink(destination: PrivacyPolicyView()) {
-                        Text("Privacy Policy")
-                    }
+            Section(header: Text("Accounts")) {
+                NavigationLink(destination: UserProfileView()) {
+                    Text("User Profile")
                 }
-
-                Section(header: Text("Manage Data")) {
-                    Button(action: {
-                        showAlert = true
-                    }) {
-                        Text("Erase All Data").foregroundColor(.red)
-                    }
-                    .alert(isPresented: $showAlert) {
-                        Alert(
-                            title: Text("Erase All Data"),
-                            message: Text("Are you sure you want to remove all data? This action cannot be undone."),
-                            primaryButton: .destructive(Text("Erase")),
-                            secondaryButton: .cancel()
-                        )
-                    }
-                }
-
-                Section(header: Text("About")) {
-                    NavigationLink(destination: AppInfoView()) {
-                        Text("App Info")
-                    }
+                NavigationLink(destination: AccountManagementView()) {
+                    Text("Account Management")
                 }
             }
-            .listStyle(InsetGroupedListStyle())
-            .navigationTitle("Settings")
+
+            Section(header: Text("App Preferences")) {
+                NavigationLink(destination: FeedbackView()) {
+                    Text("Send Feedback")
+                }
+                NavigationLink(destination: SupportView()) {
+                    Text("Support")
+                }
+                NavigationLink(destination: PrivacyPolicyView()) {
+                    Text("Privacy Policy")
+                }
+            }
+
+            Section(header: Text("Manage Data")) {
+                Button(action: {
+                    showAlert = true
+                }) {
+                    Text("Erase All Data").foregroundColor(.red)
+                }
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Erase All Data"),
+                        message: Text("Are you sure you want to remove all data? This action cannot be undone."),
+                        primaryButton: .destructive(Text("Erase")),
+                        secondaryButton: .cancel()
+                    )
+                }
+            }
+
+            Section(header: Text("About")) {
+                NavigationLink(destination: AppInfoView()) {
+                    Text("App Info")
+                }
+            }
         }
+        .listStyle(InsetGroupedListStyle())
+        .navigationTitle("Settings")
     }
 }
 
@@ -98,7 +94,6 @@ struct ThemeSettingsView: View {
         Text("Theme Settings")
     }
 }
-
 
 struct FeedbackView: View {
     var body: some View {
