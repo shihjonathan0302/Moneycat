@@ -80,16 +80,24 @@ class RealmManager: ObservableObject {
         if let localRealm = localRealm {
             do {
                 try localRealm.write {
-                    localRealm.delete(expense)
-                    loadExpenses()  // Reload to update the view
+                    if !expense.isInvalidated {
+                        localRealm.delete(expense)
+                        print("Debug: Expense with note '\(expense.note)' and amount \(expense.amount) has been deleted from Realm.")
+                    } else {
+                        print("Debug: Attempted to delete an invalidated or non-existent expense.")
+                    }
                 }
-                print("Deleted Expense: \(expense.note)")
+                // Remove deleted expense from local list to avoid invalidated references
+                expenses.removeAll { $0 == expense }
+                print("Debug: Expense removed from local expenses array.")
             } catch {
                 print("Error deleting expense: \(error.localizedDescription)")
             }
+        } else {
+            print("Debug: Realm instance is nil; unable to delete expense.")
         }
     }
-
+    
     func loadCategories() {
         if let localRealm = localRealm {
             let allCategories = localRealm.objects(ExpenseCategory.self)

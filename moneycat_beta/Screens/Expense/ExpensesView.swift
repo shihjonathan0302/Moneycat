@@ -12,6 +12,7 @@ struct ExpensesView: View {
     @State private var selectedTimeRange: TimeRange = .month
     @State private var showingEditExpenseSheet = false
     @State private var selectedExpense: Expense? = nil
+    @State private var showDeleteConfirmation = false // State to show confirmation alert
 
     var body: some View {
         VStack {
@@ -23,7 +24,6 @@ struct ExpensesView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal)
 
-            // Chart displayed outside of the List
             if let chartData = generateChartData(for: selectedTimeRange) {
                 VerticalBarChartView(data: chartData)
                     .frame(height: 250)
@@ -33,13 +33,11 @@ struct ExpensesView: View {
                     .padding()
             }
 
-            // Divider to separate chart and list
             Divider()
                 .padding(.vertical)
 
             Spacer().frame(height: 30)
 
-            // Expenses list with swipe-to-delete functionality and rounded corners
             List {
                 ForEach(realmManager.expenses) { expense in
                     VStack(alignment: .leading, spacing: 4) {
@@ -50,11 +48,13 @@ struct ExpensesView: View {
                             .foregroundColor(.secondary)
                     }
                     .padding(.vertical, 8)
-                }
-                .onDelete { indexSet in
-                    indexSet.forEach { index in
-                        let expenseToDelete = realmManager.expenses[index]
-                        realmManager.deleteExpense(expenseToDelete)
+                    .swipeActions(edge: .trailing) {
+                        Button(role: .destructive) {
+                            selectedExpense = expense // Set the selected expense
+                            showDeleteConfirmation = true // Show confirmation alert
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
                     }
                 }
             }
@@ -63,10 +63,24 @@ struct ExpensesView: View {
             .padding(.horizontal)
         }
         .padding()
-        .background(Color(.systemGray6)) // Set light gray background for the entire view
-        .navigationTitle("Expenses") // Set the title as navigation title
+        .background(Color(.systemGray6))
+        .navigationTitle("Expenses")
+        .alert(isPresented: $showDeleteConfirmation) {
+            Alert(
+                title: Text("Delete Expense"),
+                message: Text("Are you sure you want to delete this expense?"),
+                primaryButton: .destructive(Text("Delete")) {
+                    if let expenseToDelete = selectedExpense {
+                        realmManager.deleteExpense(expenseToDelete)
+                        selectedExpense = nil // Clear the selected expense
+                    }
+                },
+                secondaryButton: .cancel {
+                    selectedExpense = nil // Clear the selected expense if canceled
+                }
+            )
+        }
     }
-
     func generateChartData(for timeRange: TimeRange) -> [ChartSegmentData]? {
         let filteredExpenses = realmManager.expenses.filter {
             Calendar.current.isDate($0.date, equalTo: Date(), toGranularity: timeRange.calendarComponent)
@@ -79,7 +93,7 @@ struct ExpensesView: View {
         return groupedByCategory.map { (category, expenses) in
             let categoryTotal = expenses.reduce(0) { $0 + $1.amount }
             let percentage = categoryTotal / total
-            return ChartSegmentData(category: category, amount: percentage, color: .orange) // Adjust color as needed
+            return ChartSegmentData(category: category, amount: percentage, color: .orange)
         }
     }
 }
