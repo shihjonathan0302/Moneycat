@@ -14,7 +14,6 @@ struct AnalyzeView: View {
     @State var expense: Expense
     @Binding var resetToRoot: Bool // Add this binding to control navigation reset
 
-
     // Rating variables for each question
     @State private var q1 = 3
     @State private var q2 = 3
@@ -39,44 +38,48 @@ struct AnalyzeView: View {
                     QuestionView(questionText: "7. After purchasing this item, has it impacted your life?", rating: $q7)
                     QuestionView(questionText: "8. If you did not purchase this item, would your life be affected?", rating: $q8)
                 }
+                
+                // Submit Button
+                Section {
+                    Button(action: {
+                        // Calculate the Better and Worse Coefficients
+                        let expectationScore = Double(q3 + q4) / 2.0
+                        let attractionScore = Double(q5 + q6) / 2.0
+                        let mustHaveScore = Double(q1 + q2) / 2.0
+
+                        let betterCoefficient = (expectationScore + attractionScore) / (expectationScore + attractionScore + mustHaveScore)
+                        let worseCoefficient = (-1) * (expectationScore + mustHaveScore) / (expectationScore + attractionScore + mustHaveScore)
+
+                        // Determine dimension based on the calculated coefficients
+                        let calculatedDimension = determineDimension(betterCoefficient: betterCoefficient * 100, worseCoefficient: worseCoefficient * 100)
+
+                        realmManager.updateExpense(expense: expense, better: betterCoefficient * 100, worse: worseCoefficient * 100, dimension: calculatedDimension)
+
+                        print("Expense Dimension Set: \(calculatedDimension)")
+
+                        // Reload expenses
+                        realmManager.loadExpenses()
+
+                        // Navigate back to ReportsView
+                        resetToRoot = true
+
+                    }) {
+                        Text("Submit")
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .cornerRadius(8)
+                            .padding(.vertical, 8)
+                    }
+                }
             }
             .listStyle(InsetGroupedListStyle())
+            .background(Color(.systemGray6)) // Set entire view background to system gray
             .padding(.horizontal)
-
-            Button(action: {
-                // Calculate the Better and Worse Coefficients
-                let expectationScore = Double(q3 + q4) / 2.0
-                let attractionScore = Double(q5 + q6) / 2.0
-                let mustHaveScore = Double(q1 + q2) / 2.0
-
-                let betterCoefficient = (expectationScore + attractionScore) / (expectationScore + attractionScore + mustHaveScore)
-                let worseCoefficient = (-1) * (expectationScore + mustHaveScore) / (expectationScore + attractionScore + mustHaveScore)
-
-                // Determine dimension based on the calculated coefficients
-                let calculatedDimension = determineDimension(betterCoefficient: betterCoefficient * 100, worseCoefficient: worseCoefficient * 100)
-
-                realmManager.updateExpense(expense: expense, better: betterCoefficient * 100, worse: worseCoefficient * 100, dimension: calculatedDimension)
-                
-                print("Expense Dimension Set: \(calculatedDimension)")
-
-                // Reload expenses
-                realmManager.loadExpenses()
-                
-                // Navigate back to ReportsView
-                resetToRoot = true
-
-            }) {
-                Text("Submit")
-                    .foregroundColor(.white)
-                    .padding(.vertical, 8) // Reduced vertical padding
-                    .padding(.horizontal, 16) // Reduced horizontal padding
-                    .background(Color.blue)
-                    .cornerRadius(8)
-            }
-            .frame(maxWidth: 150) // Set a maximum width for the button
-            .padding(.top, 10) // Additional padding above button if needed
         }
         .navigationTitle("Analyze")
+        .background(Color(.systemGray6).ignoresSafeArea()) // Ensure background extends to safe area
     }
 
     // Determine dimension based on better and worse coefficients
