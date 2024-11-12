@@ -54,7 +54,7 @@ class RealmManager: ObservableObject {
                 try localRealm.write {
                     expense.betterCoefficient = better
                     expense.worseCoefficient = worse
-                    expense.dimension = dimension  // Update the dimension here
+                    expense.dimension = dimension
                     localRealm.add(expense, update: .modified)
                 }
                 print("Updated Expense: \(expense.note), Better: \(better), Worse: \(worse), Dimension: \(dimension)")
@@ -63,6 +63,7 @@ class RealmManager: ObservableObject {
             }
         }
     }
+
     
     func loadExpenses() {
         if let localRealm = localRealm {

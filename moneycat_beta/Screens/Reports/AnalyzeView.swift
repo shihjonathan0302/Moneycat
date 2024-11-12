@@ -10,7 +10,10 @@ import RealmSwift
 
 struct AnalyzeView: View {
     @EnvironmentObject var realmManager: RealmManager
+    @Environment(\.presentationMode) var presentationMode  // Add presentation mode for dismissal
     @State var expense: Expense
+    @Binding var resetToRoot: Bool // Add this binding to control navigation reset
+
 
     // Rating variables for each question
     @State private var q1 = 3
@@ -24,11 +27,6 @@ struct AnalyzeView: View {
 
     var body: some View {
         VStack {
-            // Updated title
-            Text("Analyze")
-                .font(.title2)
-                .padding(.top)
-
             List {
                 // For each question, provide segmented picker options
                 Group {
@@ -57,22 +55,26 @@ struct AnalyzeView: View {
                 // Determine dimension based on the calculated coefficients
                 let calculatedDimension = determineDimension(betterCoefficient: betterCoefficient * 100, worseCoefficient: worseCoefficient * 100)
 
-                // Update expense in Realm with better, worse, and dimension
                 realmManager.updateExpense(expense: expense, better: betterCoefficient * 100, worse: worseCoefficient * 100, dimension: calculatedDimension)
                 
                 print("Expense Dimension Set: \(calculatedDimension)")
 
                 // Reload expenses
                 realmManager.loadExpenses()
+                
+                // Navigate back to ReportsView
+                resetToRoot = true
+
             }) {
-                Text("Submit Analysis")
+                Text("Submit")
                     .foregroundColor(.white)
-                    .padding()
-                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8) // Reduced vertical padding
+                    .padding(.horizontal, 16) // Reduced horizontal padding
                     .background(Color.blue)
                     .cornerRadius(8)
             }
-            .padding()
+            .frame(maxWidth: 150) // Set a maximum width for the button
+            .padding(.top, 10) // Additional padding above button if needed
         }
         .navigationTitle("Analyze")
     }

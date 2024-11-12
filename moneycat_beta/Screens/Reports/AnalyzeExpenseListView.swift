@@ -12,6 +12,8 @@ struct AnalyzeExpenseListView: View {
     @EnvironmentObject var realmManager: RealmManager
     @State private var selectedExpense: Expense? = nil
     @State private var showAnalyzeView = false
+    @Binding var resetToRoot: Bool // Bind resetToRoot from ReportsView
+
 
     var body: some View {
         List {
@@ -42,8 +44,8 @@ struct AnalyzeExpenseListView: View {
         .navigationTitle("Analyze Expenses")
         .navigationDestination(isPresented: $showAnalyzeView) {
             if let expense = selectedExpense {
-                AnalyzeView(expense: expense)
+                AnalyzeView(expense: expense, resetToRoot: $resetToRoot)
             }
         }
-    }
+     }
 }

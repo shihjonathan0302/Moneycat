@@ -12,6 +12,7 @@ import RealmSwift
 struct ReportsView: View {
     @EnvironmentObject var realmManager: RealmManager
     @State private var showAnalyzeList = false
+    @State private var resetToRoot = false // Add this state to reset navigation
     @State private var dominantDimension: String? = nil // State to store dominant dimension
 
     var body: some View {
@@ -78,7 +79,13 @@ struct ReportsView: View {
             .navigationTitle("Reports")
             .background(Color.white.ignoresSafeArea())
             .navigationDestination(isPresented: $showAnalyzeList) {
-                AnalyzeExpenseListView()
+                AnalyzeExpenseListView(resetToRoot: $resetToRoot)
+            }
+            .onChange(of: resetToRoot) {
+                if resetToRoot {
+                    showAnalyzeList = false
+                    resetToRoot = false
+                }
             }
         }
     }

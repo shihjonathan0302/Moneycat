@@ -5,18 +5,13 @@
 //  Created by Jonathan Shih on 2024/10/7.
 //
 
-//
-//  ExpensesView.swift
-//  moneycat_beta
-//
-//  Created by Jonathan Shih on 2024/10/7.
-//
-
 import SwiftUI
 
 struct ExpensesView: View {
     @EnvironmentObject var realmManager: RealmManager
     @State private var selectedTimeRange: TimeRange = .month
+    @State private var showingEditExpenseSheet = false
+    @State private var selectedExpense: Expense? = nil
 
     var body: some View {
         NavigationView {
@@ -29,13 +24,10 @@ struct ExpensesView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 .padding(.horizontal)
 
-                // Chart displayed outside of the List with a white background and rounded corners
+                // Chart displayed outside of the List
                 if let chartData = generateChartData(for: selectedTimeRange) {
                     VerticalBarChartView(data: chartData)
                         .frame(height: 250)
-//                        .padding()
-//                        .background(Color.white)
-//                        .cornerRadius(10)
                         .padding([.horizontal, .top], 16)
                 } else {
                     Text("No expenses to display. Please add some expenses.")
