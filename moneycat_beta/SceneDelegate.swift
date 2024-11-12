@@ -17,6 +17,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
+            // Temporarily clear and reload default categories
+//            realmManager.clearAndReloadDefaultCategories()  // Step 2 - Place it here
+            
             // Set the root view to ContentView and inject the RealmManager into the environment
             let contentView = ContentView()
                 .environmentObject(realmManager)  // Pass RealmManager here

@@ -99,14 +99,32 @@ class RealmManager: ObservableObject {
 
     func addDefaultCategoriesIfNeeded() {
         if categories.isEmpty {
+            // Define fixed colors for each default category
             let defaultCategories = [
-                ExpenseCategory(name: "Food", color: PersistableColor(color: Color(hex: "#FF6347"))),
-                ExpenseCategory(name: "Rent", color: PersistableColor(color: Color(hex: "#4682B4"))),
-                ExpenseCategory(name: "Utilities", color: PersistableColor(color: Color(hex: "#9ACD32"))),
-                ExpenseCategory(name: "Transportation", color: PersistableColor(color: Color(hex: "#FFD700")))
+                ExpenseCategory(name: "Food", color: PersistableColor(color: Color.red)),
+                ExpenseCategory(name: "Rent", color: PersistableColor(color: Color.yellow)),
+                ExpenseCategory(name: "Utilities", color: PersistableColor(color: Color.teal)),
+                ExpenseCategory(name: "Transportation", color: PersistableColor(color: Color.purple))
             ]
+            
             for category in defaultCategories {
                 submitCategory(category)
+            }
+        }
+    }
+    
+    func clearAndReloadDefaultCategories() {
+        if let localRealm = localRealm {
+            do {
+                try localRealm.write {
+                    localRealm.delete(localRealm.objects(ExpenseCategory.self))
+                    categories.removeAll()
+                    print("All categories deleted.")
+                }
+                // Reload the default categories after clearing
+                addDefaultCategoriesIfNeeded()
+            } catch {
+                print("Error clearing categories: \(error.localizedDescription)")
             }
         }
     }
