@@ -63,6 +63,7 @@ class RealmManager: ObservableObject {
             }
         }
     }
+    
     func loadExpenses() {
         if let localRealm = localRealm {
             let allExpenses = localRealm.objects(Expense.self).sorted(byKeyPath: "date")
@@ -71,6 +72,20 @@ class RealmManager: ObservableObject {
                 print("Expense: \(expense.note), Amount: \(expense.amount), Date: \(expense.date), NeedOrWant: \(expense.needOrWant), Better: \(expense.betterCoefficient), Worse: \(expense.worseCoefficient), Dimension: \(expense.dimension)")
             }
             print("Loaded \(expenses.count) expenses")
+        }
+    }
+    
+    func deleteExpense(_ expense: Expense) {
+        if let localRealm = localRealm {
+            do {
+                try localRealm.write {
+                    localRealm.delete(expense)
+                    loadExpenses()  // Reload to update the view
+                }
+                print("Deleted Expense: \(expense.note)")
+            } catch {
+                print("Error deleting expense: \(error.localizedDescription)")
+            }
         }
     }
 

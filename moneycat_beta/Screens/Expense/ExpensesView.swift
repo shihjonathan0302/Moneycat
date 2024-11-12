@@ -5,56 +5,76 @@
 //  Created by Jonathan Shih on 2024/10/7.
 //
 
+//
+//  ExpensesView.swift
+//  moneycat_beta
+//
+//  Created by Jonathan Shih on 2024/10/7.
+//
+
 import SwiftUI
 
 struct ExpensesView: View {
     @EnvironmentObject var realmManager: RealmManager
     @State private var selectedTimeRange: TimeRange = .month
-    
+
     var body: some View {
-        VStack {
-            Text("Expenses")
-                .font(.title.bold())
-                .padding(.top)
-            
-            Picker("Time Range", selection: $selectedTimeRange) {
-                ForEach(TimeRange.allCases, id: \.self) { range in
-                    Text(range.rawValue.capitalized)
-                }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding(.horizontal)
-
-            // Chart displayed outside of the List
-            if let chartData = generateChartData(for: selectedTimeRange) {
-                VerticalBarChartView(data: chartData) // Ensure BarChartView is properly defined
-                    .frame(height: 250)
-                    .padding()
-            } else {
-                Text("No expenses to display. Please add some expenses.")
-                    .padding()
-            }
-
-            // Divider to separate chart and list
-            Divider()
-                .padding(.vertical)
-            
-            // Expenses list
-            List {
-                ForEach(realmManager.expenses) { expense in
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(expense.note)
-                            .font(.headline)
-                        Text("Amount: \(expense.amount, specifier: "%.0f")")
-                        Text("Category: \(expense.category?.name ?? "Unknown")")
-                            .foregroundColor(.secondary)
+        NavigationView {
+            VStack {
+                Picker("Time Range", selection: $selectedTimeRange) {
+                    ForEach(TimeRange.allCases, id: \.self) { range in
+                        Text(range.rawValue.capitalized)
                     }
-                    .padding(.vertical, 8)
                 }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding(.horizontal)
+
+                // Chart displayed outside of the List with a white background and rounded corners
+                if let chartData = generateChartData(for: selectedTimeRange) {
+                    VerticalBarChartView(data: chartData)
+                        .frame(height: 250)
+//                        .padding()
+//                        .background(Color.white)
+//                        .cornerRadius(10)
+                        .padding([.horizontal, .top], 16)
+                } else {
+                    Text("No expenses to display. Please add some expenses.")
+                        .padding()
+                }
+
+                // Divider to separate chart and list
+                Divider()
+                    .padding(.vertical)
+
+                Spacer().frame(height: 30)
+
+                // Expenses list with swipe-to-delete functionality and rounded corners
+                List {
+                    ForEach(realmManager.expenses) { expense in
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(expense.note)
+                                .font(.headline)
+                            Text("Amount: \(expense.amount, specifier: "%.0f")")
+                            Text("Category: \(expense.category?.name ?? "Unknown")")
+                                .foregroundColor(.secondary)
+                        }
+                        .padding(.vertical, 8)
+                    }
+                    .onDelete { indexSet in
+                        indexSet.forEach { index in
+                            let expenseToDelete = realmManager.expenses[index]
+                            realmManager.deleteExpense(expenseToDelete)
+                        }
+                    }
+                }
+                .listStyle(PlainListStyle())
+                .cornerRadius(10)
+                .padding(.horizontal)
             }
-            .listStyle(PlainListStyle()) // Makes it look more like a plain list
+            .padding()
+            .background(Color(.systemGray6)) // Set light gray background for the entire view
+            .navigationTitle("Expenses") // Set the title as navigation title
         }
-        .padding()
     }
 
     func generateChartData(for timeRange: TimeRange) -> [ChartSegmentData]? {
