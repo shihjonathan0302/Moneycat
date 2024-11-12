@@ -14,59 +14,57 @@ struct ExpensesView: View {
     @State private var selectedExpense: Expense? = nil
 
     var body: some View {
-        NavigationView {
-            VStack {
-                Picker("Time Range", selection: $selectedTimeRange) {
-                    ForEach(TimeRange.allCases, id: \.self) { range in
-                        Text(range.rawValue.capitalized)
-                    }
+        VStack {
+            Picker("Time Range", selection: $selectedTimeRange) {
+                ForEach(TimeRange.allCases, id: \.self) { range in
+                    Text(range.rawValue.capitalized)
                 }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding(.horizontal)
-
-                // Chart displayed outside of the List
-                if let chartData = generateChartData(for: selectedTimeRange) {
-                    VerticalBarChartView(data: chartData)
-                        .frame(height: 250)
-                        .padding([.horizontal, .top], 16)
-                } else {
-                    Text("No expenses to display. Please add some expenses.")
-                        .padding()
-                }
-
-                // Divider to separate chart and list
-                Divider()
-                    .padding(.vertical)
-
-                Spacer().frame(height: 30)
-
-                // Expenses list with swipe-to-delete functionality and rounded corners
-                List {
-                    ForEach(realmManager.expenses) { expense in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(expense.note)
-                                .font(.headline)
-                            Text("Amount: \(expense.amount, specifier: "%.0f")")
-                            Text("Category: \(expense.category?.name ?? "Unknown")")
-                                .foregroundColor(.secondary)
-                        }
-                        .padding(.vertical, 8)
-                    }
-                    .onDelete { indexSet in
-                        indexSet.forEach { index in
-                            let expenseToDelete = realmManager.expenses[index]
-                            realmManager.deleteExpense(expenseToDelete)
-                        }
-                    }
-                }
-                .listStyle(PlainListStyle())
-                .cornerRadius(10)
-                .padding(.horizontal)
             }
-            .padding()
-            .background(Color(.systemGray6)) // Set light gray background for the entire view
-            .navigationTitle("Expenses") // Set the title as navigation title
+            .pickerStyle(SegmentedPickerStyle())
+            .padding(.horizontal)
+
+            // Chart displayed outside of the List
+            if let chartData = generateChartData(for: selectedTimeRange) {
+                VerticalBarChartView(data: chartData)
+                    .frame(height: 250)
+                    .padding([.horizontal, .top], 16)
+            } else {
+                Text("No expenses to display. Please add some expenses.")
+                    .padding()
+            }
+
+            // Divider to separate chart and list
+            Divider()
+                .padding(.vertical)
+
+            Spacer().frame(height: 30)
+
+            // Expenses list with swipe-to-delete functionality and rounded corners
+            List {
+                ForEach(realmManager.expenses) { expense in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(expense.note)
+                            .font(.headline)
+                        Text("Amount: \(expense.amount, specifier: "%.0f")")
+                        Text("Category: \(expense.category?.name ?? "Unknown")")
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(.vertical, 8)
+                }
+                .onDelete { indexSet in
+                    indexSet.forEach { index in
+                        let expenseToDelete = realmManager.expenses[index]
+                        realmManager.deleteExpense(expenseToDelete)
+                    }
+                }
+            }
+            .listStyle(PlainListStyle())
+            .cornerRadius(10)
+            .padding(.horizontal)
         }
+        .padding()
+        .background(Color(.systemGray6)) // Set light gray background for the entire view
+        .navigationTitle("Expenses") // Set the title as navigation title
     }
 
     func generateChartData(for timeRange: TimeRange) -> [ChartSegmentData]? {
