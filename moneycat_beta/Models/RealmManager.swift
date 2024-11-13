@@ -14,6 +14,7 @@ class RealmManager: ObservableObject {
     @Published var expenses: [Expense] = []
     @Published var categories: [ExpenseCategory] = []
     @Published var isDarkMode: Bool = false
+    @Published var updateTrigger: Bool = false  // Trigger property to force update
 
     init() {
         openRealm()
@@ -58,20 +59,20 @@ class RealmManager: ObservableObject {
                     localRealm.add(expense, update: .modified)
                 }
                 print("Updated Expense: \(expense.note), Better: \(better), Worse: \(worse), Dimension: \(dimension)")
+                
+                // Toggle the update trigger to notify observers
+                updateTrigger.toggle()
+                
             } catch {
                 print("Error updating expense: \(error.localizedDescription)")
             }
         }
     }
 
-    
     func loadExpenses() {
         if let localRealm = localRealm {
             let allExpenses = localRealm.objects(Expense.self).sorted(byKeyPath: "date")
             expenses = Array(allExpenses)
-            for expense in expenses {
-                print("Expense: \(expense.note), Amount: \(expense.amount), Date: \(expense.date), NeedOrWant: \(expense.needOrWant), Better: \(expense.betterCoefficient), Worse: \(expense.worseCoefficient), Dimension: \(expense.dimension)")
-            }
             print("Loaded \(expenses.count) expenses")
         }
     }
@@ -108,32 +109,14 @@ class RealmManager: ObservableObject {
 
     func addDefaultCategoriesIfNeeded() {
         if categories.isEmpty {
-            // Define fixed colors for each default category
             let defaultCategories = [
                 ExpenseCategory(name: "Food", color: PersistableColor(color: Color.red)),
                 ExpenseCategory(name: "Rent", color: PersistableColor(color: Color.yellow)),
                 ExpenseCategory(name: "Utilities", color: PersistableColor(color: Color.teal)),
                 ExpenseCategory(name: "Transportation", color: PersistableColor(color: Color.purple))
             ]
-            
             for category in defaultCategories {
                 submitCategory(category)
-            }
-        }
-    }
-    
-    func clearAndReloadDefaultCategories() {
-        if let localRealm = localRealm {
-            do {
-                try localRealm.write {
-                    localRealm.delete(localRealm.objects(ExpenseCategory.self))
-                    categories.removeAll()
-                    print("All categories deleted.")
-                }
-                // Reload the default categories after clearing
-                addDefaultCategoriesIfNeeded()
-            } catch {
-                print("Error clearing categories: \(error.localizedDescription)")
             }
         }
     }
@@ -166,7 +149,6 @@ class RealmManager: ObservableObject {
         }
     }
     
-    // Calculate dimension based on better and worse coefficients
     func calculateDimension(better: Double, worse: Double) -> String {
         if better > 50 && worse < -50 {
             return "Attractive"
