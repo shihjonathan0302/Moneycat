@@ -58,7 +58,8 @@ struct ExpenseBetterWorseChart: View {
                               yStart: .value("Bottom", 50), yEnd: .value("Top", 100))
                     .foregroundStyle(Color.blue.opacity(0.15))
 
-                ForEach(expenses, id: \.id) { expense in
+                // Filter out invalidated expenses
+                ForEach(expenses.filter { !$0.isInvalidated }, id: \.id) { expense in
                     let better = expense.betterCoefficient
                     let worse = expense.worseCoefficient
                     let categoryColor = expense.category?.color?.toUIColor() ?? UIColor.gray

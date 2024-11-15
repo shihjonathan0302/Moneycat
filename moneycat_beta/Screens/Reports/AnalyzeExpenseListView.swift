@@ -31,8 +31,12 @@ struct AnalyzeExpenseListView: View {
 
                     // Button to analyze each expense
                     Button(action: {
-                        selectedExpense = expense
-                        showAnalyzeView = true
+                        if !expense.isInvalidated { // Double-check if expense is valid
+                            selectedExpense = expense
+                            showAnalyzeView = true
+                        } else {
+                            print("Attempted to analyze an invalidated expense.")
+                        }
                     }) {
                         Text("Analyze")
                             .foregroundColor(.blue)
@@ -42,13 +46,18 @@ struct AnalyzeExpenseListView: View {
         }
         .navigationTitle("Analyze Expenses")
         .navigationDestination(isPresented: $showAnalyzeView) {
-            if let expense = selectedExpense {
+            if let expense = selectedExpense, !expense.isInvalidated { // Ensure selectedExpense is valid
                 AnalyzeView(expense: expense, resetToRoot: $resetToRoot)
                     .onDisappear {
                         selectedExpense = nil // Clear selected expense after analysis
-                        realmManager.loadExpenses() // Optional: refresh expenses if necessary
+                        realmManager.loadExpenses() // Refresh expenses after analysis
                     }
+            } else {
+                // Fallback message if the expense becomes invalidated
+                Text("The selected expense is no longer available.")
+                    .foregroundColor(.red)
+                    .font(.body)
             }
         }
-     }
+    }
 }

@@ -1,10 +1,3 @@
-//
-//  RealmManager.swift
-//  moneycat_beta
-//
-//  Created by Jonathan Shih on 2024/10/7.
-//
-
 import RealmSwift
 import SwiftUI
 
@@ -15,7 +8,6 @@ class RealmManager: ObservableObject {
     @Published var categories: [ExpenseCategory] = []
     @Published var isDarkMode: Bool = false
     @Published var updateTrigger: Bool = false  // Trigger property to force update
-
 
     init() {
         openRealm()
@@ -49,63 +41,63 @@ class RealmManager: ObservableObject {
             }
         }
     }
-    
+
     func updateExpense(expense: Expense, better: Double, worse: Double, dimension: String) {
-        if let localRealm = localRealm {
-            do {
-                try localRealm.write {
-                    expense.betterCoefficient = better
-                    expense.worseCoefficient = worse
-                    expense.dimension = dimension
-                    localRealm.add(expense, update: .modified)
-                }
-                print("Updated Expense: \(expense.note), Better: \(better), Worse: \(worse), Dimension: \(dimension)")
-                
-                // Toggle the update trigger to notify observers
-                updateTrigger.toggle()
-            } catch {
-                print("Error updating expense: \(error.localizedDescription)")
+        guard let localRealm = localRealm else {
+            print("Debug: Realm instance is nil; unable to update expense.")
+            return
+        }
+
+        guard !expense.isInvalidated else {
+            print("Debug: Attempted to update an invalidated or non-existent expense.")
+            return
+        }
+
+        do {
+            try localRealm.write {
+                expense.betterCoefficient = better
+                expense.worseCoefficient = worse
+                expense.dimension = dimension
+                localRealm.add(expense, update: .modified)
             }
+            print("Updated Expense: \(expense.note), Better: \(better), Worse: \(worse), Dimension: \(dimension)")
+
+            updateTrigger.toggle()
+        } catch {
+            print("Error updating expense: \(error.localizedDescription)")
         }
     }
 
     func loadExpenses() {
         if let localRealm = localRealm {
-            let allExpenses = localRealm.objects(Expense.self).sorted(byKeyPath: "date")
+            let allExpenses = localRealm.objects(Expense.self).filter { !$0.isInvalidated }
             expenses = Array(allExpenses)
             print("Loaded \(expenses.count) expenses")
         }
     }
-    
+
     func deleteExpense(_ expense: Expense) {
         guard let localRealm = localRealm else {
             print("Debug: Realm instance is nil; unable to delete expense.")
             return
         }
 
-        // Ensure the expense object is valid before trying to delete it
         guard !expense.isInvalidated else {
-            print("Debug: Attempted to delete an invalidated or non-existent expense.")
+            print("Debug: Attempted to delete an invalidated expense.")
             return
         }
 
         do {
             try localRealm.write {
-                // Safely delete the expense from Realm
                 localRealm.delete(expense)
-                print("Debug: Expense with note '\(expense.note)' and amount \(expense.amount) has been deleted from Realm.")
             }
-
-            // Refresh expenses array after deletion to prevent accessing invalid objects
             loadExpenses()
-            print("Debug: Expenses array refreshed after deletion.")
-
+            print("Debug: Expense deleted and expenses reloaded.")
         } catch {
             print("Error deleting expense: \(error.localizedDescription)")
         }
     }
-   
-    
+
     func loadCategories() {
         if let localRealm = localRealm {
             let allCategories = localRealm.objects(ExpenseCategory.self)
@@ -128,34 +120,40 @@ class RealmManager: ObservableObject {
         }
     }
 
-    func submitCategory(_ category: ExpenseCategory) {
-        if let localRealm = localRealm {
-            do {
-                try localRealm.write {
-                    localRealm.add(category)
-                    loadCategories()
-                    print("Category submitted: \(category.name)")
-                }
-            } catch {
-                print("Error submitting category to Realm: \(error.localizedDescription)")
-            }
-        }
-    }
-
     func submitExpense(_ expense: Expense) {
         if let localRealm = localRealm {
             do {
                 try localRealm.write {
-                    localRealm.add(expense)
-                    loadExpenses()
+                    // Ensure expense is not already present
+                    if !localRealm.objects(Expense.self).contains(where: { $0.id == expense.id }) {
+                        localRealm.add(expense)
+                    }
                 }
+                loadExpenses()
                 print("Expense submitted: \(expense.note)")
             } catch {
                 print("Error submitting expense to Realm: \(error.localizedDescription)")
             }
         }
     }
-    
+
+    func submitCategory(_ category: ExpenseCategory) {
+        if let localRealm = localRealm {
+            do {
+                try localRealm.write {
+                    // Ensure category is not already present
+                    if !localRealm.objects(ExpenseCategory.self).contains(where: { $0.id == category.id }) {
+                        localRealm.add(category)
+                    }
+                }
+                loadCategories()
+                print("Category submitted: \(category.name)")
+            } catch {
+                print("Error submitting category to Realm: \(error.localizedDescription)")
+            }
+        }
+    }
+
     func calculateDimension(better: Double, worse: Double) -> String {
         if better > 50 && worse < -50 {
             return "Attractive"

@@ -23,62 +23,85 @@ struct AnalyzeView: View {
     @State private var q7 = 3
     @State private var q8 = 3
 
+    @State private var isExpenseInvalid = false // New state for invalidated expense check
+
     var body: some View {
         VStack {
-            List {
-                Group {
-                    QuestionView(questionText: "1. After purchasing this item, are you satisfied with it?", rating: $q1)
-                    QuestionView(questionText: "2. If you did not purchase this item, would you feel dissatisfied?", rating: $q2)
-                    QuestionView(questionText: "3. After purchasing this item, do you feel happy or fulfilled?", rating: $q3)
-                    QuestionView(questionText: "4. If you did not purchase this item, would you feel sad or regretful?", rating: $q4)
-                    QuestionView(questionText: "5. Does this item meet the value you expected it to have?", rating: $q5)
-                    QuestionView(questionText: "6. If this item does not exceed your expectations, does it affect your satisfaction?", rating: $q6)
-                    QuestionView(questionText: "7. After purchasing this item, has it impacted your life?", rating: $q7)
-                    QuestionView(questionText: "8. If you did not purchase this item, would your life be affected?", rating: $q8)
-                }
-                
-                Section {
-                    Button(action: {
-                        // Check if the expense is still valid
-                        if expense.isInvalidated {
-                            print("Error: Attempted to analyze an invalidated expense.")
-                            return
+            if isExpenseInvalid {
+                // Display an error message if the expense is invalidated
+                Text("This expense is no longer valid.")
+                    .font(.headline)
+                    .foregroundColor(.red)
+                    .padding()
+                Spacer()
+            } else {
+                // Show the analysis questions if the expense is valid
+                List {
+                    Group {
+                        QuestionView(questionText: "1. After purchasing this item, are you satisfied with it?", rating: $q1)
+                        QuestionView(questionText: "2. If you did not purchase this item, would you feel dissatisfied?", rating: $q2)
+                        QuestionView(questionText: "3. After purchasing this item, do you feel happy or fulfilled?", rating: $q3)
+                        QuestionView(questionText: "4. If you did not purchase this item, would you feel sad or regretful?", rating: $q4)
+                        QuestionView(questionText: "5. Does this item meet the value you expected it to have?", rating: $q5)
+                        QuestionView(questionText: "6. If this item does not exceed your expectations, does it affect your satisfaction?", rating: $q6)
+                        QuestionView(questionText: "7. After purchasing this item, has it impacted your life?", rating: $q7)
+                        QuestionView(questionText: "8. If you did not purchase this item, would your life be affected?", rating: $q8)
+                    }
+
+                    Section {
+                        Button(action: {
+                            if expense.isInvalidated {
+                                print("Error: Attempted to analyze an invalidated expense.")
+                                isExpenseInvalid = true
+                                return
+                            }
+
+                            let expectationScore = Double(q3 + q4) / 2.0
+                            let attractionScore = Double(q5 + q6) / 2.0
+                            let mustHaveScore = Double(q1 + q2) / 2.0
+
+                            let betterCoefficient = (expectationScore + attractionScore) / (expectationScore + attractionScore + mustHaveScore)
+                            let worseCoefficient = (-1) * (expectationScore + mustHaveScore) / (expectationScore + attractionScore + mustHaveScore)
+
+                            let calculatedDimension = determineDimension(
+                                betterCoefficient: betterCoefficient * 100,
+                                worseCoefficient: worseCoefficient * 100
+                            )
+
+                            realmManager.updateExpense(
+                                expense: expense,
+                                better: betterCoefficient * 100,
+                                worse: worseCoefficient * 100,
+                                dimension: calculatedDimension
+                            )
+
+                            print("Expense Dimension Set: \(calculatedDimension)")
+
+                            realmManager.loadExpenses()
+                            resetToRoot = true
+                        }) {
+                            Text("Submit")
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .cornerRadius(8)
+                                .padding(.vertical, 8)
                         }
-
-                        let expectationScore = Double(q3 + q4) / 2.0
-                        let attractionScore = Double(q5 + q6) / 2.0
-                        let mustHaveScore = Double(q1 + q2) / 2.0
-
-                        let betterCoefficient = (expectationScore + attractionScore) / (expectationScore + attractionScore + mustHaveScore)
-                        let worseCoefficient = (-1) * (expectationScore + mustHaveScore) / (expectationScore + attractionScore + mustHaveScore)
-
-                        let calculatedDimension = determineDimension(betterCoefficient: betterCoefficient * 100, worseCoefficient: worseCoefficient * 100)
-
-                        realmManager.updateExpense(expense: expense, better: betterCoefficient * 100, worse: worseCoefficient * 100, dimension: calculatedDimension)
-
-                        print("Expense Dimension Set: \(calculatedDimension)")
-
-                        realmManager.loadExpenses()
-                        resetToRoot = true
-
-                    }) {
-                        Text("Submit")
-                            .foregroundColor(.white)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.blue)
-                            .cornerRadius(8)
-                            .padding(.vertical, 8)
                     }
                 }
+                .listStyle(InsetGroupedListStyle())
+                .padding(.horizontal, -10)
+                .background(Color(.systemGray6))
+                .padding(.horizontal)
             }
-            .listStyle(InsetGroupedListStyle())
-            .padding(.horizontal, -10)
-            .background(Color(.systemGray6))
-            .padding(.horizontal)
         }
         .navigationTitle("Analyze")
         .background(Color(.systemGray6).ignoresSafeArea())
+        .onAppear {
+            // Check if the expense is invalidated when the view appears
+            isExpenseInvalid = expense.isInvalidated
+        }
     }
 
     func determineDimension(betterCoefficient: Double, worseCoefficient: Double) -> String {

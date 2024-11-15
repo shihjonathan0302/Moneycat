@@ -18,10 +18,10 @@ struct ReportsView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                // Filter out invalidated expenses before displaying
+                // Safely filter out invalidated expenses
                 let validExpenses = realmManager.expenses.filter { !$0.isInvalidated }
                 if !validExpenses.isEmpty {
-                    let expensesToAnalyze = validExpenses.filter { $0.needOrWant == "Want" }
+                    let expensesToAnalyze = validExpenses.filter { $0.needOrWant == "Want" && !$0.dimension.isEmpty }
                     
                     if !expensesToAnalyze.isEmpty {
                         ExpenseBetterWorseChart(expenses: expensesToAnalyze)
@@ -40,30 +40,17 @@ struct ReportsView: View {
                         .padding()
                         
                         .onAppear {
-                            dominantDimension = findDominantDimension(in: expensesToAnalyze)
+                            updateDominantDimension(expensesToAnalyze)
                         }
 
-                        // Trigger data refresh on delete
+                        // Trigger data refresh on delete or updates
                         .onReceive(realmManager.$updateTrigger) { _ in
-                            dominantDimension = findDominantDimension(in: expensesToAnalyze)
+                            updateDominantDimension(expensesToAnalyze)
                         }
 
                         if let dimension = dominantDimension {
-                            VStack(alignment: .leading, spacing: 10) {
-                                Text("Recommendation")
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
-                                    .padding(.top, 20)
-                                    .padding(.leading, 16)
-
-                                Text(recommendationDetail(for: dimension))
-                                    .font(.body)
-                                    .foregroundColor(.secondary)
-                                    .padding()
-                                    .background(Color.white)
-                                    .cornerRadius(8)
-                                    .padding(.horizontal, 16)
-                            }
+                            RecommendationView(dimension: dimension)
+                                .padding(.horizontal, 16)
                         } else {
                             Text("No dominant expense type identified.")
                                 .foregroundColor(.gray)
@@ -75,7 +62,7 @@ struct ReportsView: View {
                             .padding()
                     }
                 } else {
-                    Text("No 'Want' expenses to display.")
+                    Text("No expenses available.")
                         .foregroundColor(.gray)
                         .padding()
                 }
@@ -92,7 +79,11 @@ struct ReportsView: View {
                     resetToRoot = false
                 }
             }
-       }
+        }
+    }
+
+    func updateDominantDimension(_ expenses: [Expense]) {
+        dominantDimension = findDominantDimension(in: expenses)
     }
 
     func findDominantDimension(in expenses: [Expense]) -> String? {

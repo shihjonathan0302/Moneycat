@@ -10,9 +10,6 @@ import SwiftUI
 struct ExpensesView: View {
     @EnvironmentObject var realmManager: RealmManager
     @State private var selectedTimeRange: TimeRange = .month
-    @State private var showingEditExpenseSheet = false
-    @State private var selectedExpense: Expense? = nil
-    @State private var showDeleteConfirmation = false
     
     var body: some View {
         VStack {
@@ -50,8 +47,12 @@ struct ExpensesView: View {
                     .padding(.vertical, 8)
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
-                            selectedExpense = expense
-                            showDeleteConfirmation = true
+                            if !expense.isInvalidated {  // Double-check validity before deleting
+                                realmManager.deleteExpense(expense)
+                                realmManager.loadExpenses() // Reload expenses after deletion
+                            } else {
+                                print("Expense is already deleted or invalidated.")
+                            }
                         } label: {
                             Label("Delete", systemImage: "trash")
                         }
@@ -65,22 +66,6 @@ struct ExpensesView: View {
         .padding()
         .background(Color(.systemGray6))
         .navigationTitle("Expenses")
-        .alert(isPresented: $showDeleteConfirmation) {
-            Alert(
-                title: Text("Delete Expense"),
-                message: Text("Are you sure you want to delete this expense?"),
-                primaryButton: .destructive(Text("Delete")) {
-                    if let expenseToDelete = selectedExpense {
-                        realmManager.deleteExpense(expenseToDelete)
-                        realmManager.loadExpenses() // Reload expenses after deletion
-                        selectedExpense = nil
-                    }
-                },
-                secondaryButton: .cancel {
-                    selectedExpense = nil
-                }
-            )
-        }
     }
     
     func generateChartData(for timeRange: TimeRange) -> [ChartSegmentData]? {

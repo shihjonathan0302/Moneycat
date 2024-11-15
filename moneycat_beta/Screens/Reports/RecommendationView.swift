@@ -17,13 +17,23 @@ struct RecommendationView: View {
                 .foregroundColor(.primary)
                 .padding(.top, 20)
 
-            Text(recommendationText(for: dimension))
-                .font(.body)
-                .foregroundColor(.secondary)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-                .padding(.horizontal)
+            if !dimension.isEmpty {
+                Text(recommendationText(for: dimension))
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                    .padding(.horizontal)
+            } else {
+                Text("No dimension available for recommendation.")
+                    .font(.body)
+                    .foregroundColor(.red)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+                    .padding(.horizontal)
+            }
         }
     }
 

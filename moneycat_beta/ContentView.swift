@@ -18,33 +18,35 @@ struct ContentView: View {
             }
             .tabItem { Label("Reports", systemImage: "chart.xyaxis.line") }
             .tag(1)
-            .onAppear { print("Reports View Loaded") }
+            .onAppear {
+                // Optionally reload expenses to ensure data consistency
+                realmManager.loadExpenses()
+            }
 
             NavigationStack {
                 AddExpenseView()
             }
             .tabItem { Label("Add", systemImage: "plus.circle") }
             .tag(2)
-            .onAppear { print("AddExpense View Loaded") }
 
             NavigationStack {
                 ExpensesView()
             }
             .tabItem { Label("Expenses", systemImage: "list.bullet") }
             .tag(3)
-            .onAppear { print("Expenses View Loaded") }
 
             NavigationStack {
                 SettingsView()
             }
             .tabItem { Label("Settings", systemImage: "gearshape") }
             .tag(4)
-            .onAppear {
-                print("Settings View Loaded")
-            }
+        }
+        .onReceive(realmManager.$updateTrigger) { _ in
+            // Listen for Realm updates and refresh as needed
+            realmManager.loadExpenses()
         }
         .onAppear {
-            UITabBar.appearance().backgroundColor = UIColor.systemBackground  // Optional: change the tab bar appearance
+            UITabBar.appearance().backgroundColor = UIColor.systemBackground
         }
     }
 }
