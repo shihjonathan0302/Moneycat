@@ -34,7 +34,7 @@ struct ReportsView: View {
                             Text("Analyze")
                                 .foregroundColor(.white)
                                 .padding()
-                                .background(Color.blue)
+                                .background(Color.orange)
                                 .cornerRadius(8)
                         }
                         .padding()

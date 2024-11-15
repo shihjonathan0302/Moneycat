@@ -13,18 +13,18 @@ struct RecommendationView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
-                Text("Recommendation")
-                    .font(.headline)
-                    .foregroundColor(.primary)
-                    .padding(.top, 20)
-                    .padding(.horizontal)
+//                Text("Recommendation")
+//                    .font(.headline)
+//                    .foregroundColor(.primary)
+//                    .padding(.top, 20)
+//                    .padding(.horizontal)
 
                 if !dimension.isEmpty {
                     VStack(alignment: .leading, spacing: 16) {
                         // Criteria Section
                         HStack(alignment: .top, spacing: 8) {
                             Image(systemName: "exclamationmark.triangle.fill")
-                                .foregroundColor(.yellow)
+                                .foregroundColor(.orange)
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Criteria")
                                     .font(.subheadline)
@@ -40,7 +40,7 @@ struct RecommendationView: View {
                         // Suggestion Section
                         HStack(alignment: .top, spacing: 8) {
                             Image(systemName: "lightbulb.fill")
-                                .foregroundColor(.blue)
+                                .foregroundColor(.orange)
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Suggestion")
                                     .font(.subheadline)
