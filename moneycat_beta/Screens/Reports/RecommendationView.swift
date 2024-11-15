@@ -40,14 +40,14 @@ struct RecommendationView: View {
     // Provide recommendation text based on dimension
     private func recommendationText(for dimension: String) -> String {
         switch dimension {
-        case "Basic Needs":
-            return "These are essential expenses. Ensure they are managed within your budget."
-        case "Performance Needs":
-            return "Consider whether the expense offers value proportional to the benefit."
-        case "Excitement Needs":
-            return "Budget for these to avoid impulse purchases. Moderate as necessary."
-        case "Indifferent Needs":
-            return "Consider reducing these as they do not greatly impact your quality of life."
+        case "Attractive":
+            return "Criteria: High impact on satisfaction but not critical. Suggestion: These expenses enhance quality of life. Allocate budget wisely but avoid overindulgence."
+        case "Must":
+            return "Criteria: Essential and necessary for basic needs. Suggestion: Manage these expenses carefully as they are unavoidable but essential."
+        case "One-Dimensional":
+            return "Criteria: Provides direct, expected value without added delight. Suggestion: Focus on the value of these expenses, ensuring cost-effectiveness."
+        case "Indifferent":
+            return "Criteria: Low impact on satisfaction and can be reduced. Suggestion: Consider cutting down on these expenses, as they add minimal value to your lifestyle."
         default:
             return "No specific recommendation."
         }
