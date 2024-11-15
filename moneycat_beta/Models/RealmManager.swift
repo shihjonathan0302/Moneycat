@@ -16,6 +16,7 @@ class RealmManager: ObservableObject {
     @Published var isDarkMode: Bool = false
     @Published var updateTrigger: Bool = false  // Trigger property to force update
 
+
     init() {
         openRealm()
         loadExpenses()
@@ -62,7 +63,6 @@ class RealmManager: ObservableObject {
                 
                 // Toggle the update trigger to notify observers
                 updateTrigger.toggle()
-                
             } catch {
                 print("Error updating expense: \(error.localizedDescription)")
             }
@@ -78,26 +78,33 @@ class RealmManager: ObservableObject {
     }
     
     func deleteExpense(_ expense: Expense) {
-        if let localRealm = localRealm {
-            do {
-                try localRealm.write {
-                    if !expense.isInvalidated {
-                        localRealm.delete(expense)
-                        print("Debug: Expense with note '\(expense.note)' and amount \(expense.amount) has been deleted from Realm.")
-                    } else {
-                        print("Debug: Attempted to delete an invalidated or non-existent expense.")
-                    }
-                }
-                // Remove deleted expense from local list to avoid invalidated references
-                expenses.removeAll { $0 == expense }
-                print("Debug: Expense removed from local expenses array.")
-            } catch {
-                print("Error deleting expense: \(error.localizedDescription)")
-            }
-        } else {
+        guard let localRealm = localRealm else {
             print("Debug: Realm instance is nil; unable to delete expense.")
+            return
+        }
+
+        // Ensure the expense object is valid before trying to delete it
+        guard !expense.isInvalidated else {
+            print("Debug: Attempted to delete an invalidated or non-existent expense.")
+            return
+        }
+
+        do {
+            try localRealm.write {
+                // Safely delete the expense from Realm
+                localRealm.delete(expense)
+                print("Debug: Expense with note '\(expense.note)' and amount \(expense.amount) has been deleted from Realm.")
+            }
+
+            // Refresh expenses array after deletion to prevent accessing invalid objects
+            loadExpenses()
+            print("Debug: Expenses array refreshed after deletion.")
+
+        } catch {
+            print("Error deleting expense: \(error.localizedDescription)")
         }
     }
+   
     
     func loadCategories() {
         if let localRealm = localRealm {

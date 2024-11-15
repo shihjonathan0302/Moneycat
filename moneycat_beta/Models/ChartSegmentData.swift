@@ -13,3 +13,4 @@ struct ChartSegmentData: Identifiable {
     var amount: Double // Updated to store the amount rather than percentage
     var color: Color
 }
+

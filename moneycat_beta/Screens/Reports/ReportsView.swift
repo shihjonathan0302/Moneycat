@@ -18,8 +18,10 @@ struct ReportsView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if !realmManager.expenses.isEmpty {
-                    let expensesToAnalyze = realmManager.expenses.filter { $0.needOrWant == "Want" }
+                // Filter out invalidated expenses before displaying
+                let validExpenses = realmManager.expenses.filter { !$0.isInvalidated }
+                if !validExpenses.isEmpty {
+                    let expensesToAnalyze = validExpenses.filter { $0.needOrWant == "Want" }
                     
                     if !expensesToAnalyze.isEmpty {
                         ExpenseBetterWorseChart(expenses: expensesToAnalyze)
@@ -41,6 +43,7 @@ struct ReportsView: View {
                             dominantDimension = findDominantDimension(in: expensesToAnalyze)
                         }
 
+                        // Trigger data refresh on delete
                         .onReceive(realmManager.$updateTrigger) { _ in
                             dominantDimension = findDominantDimension(in: expensesToAnalyze)
                         }
@@ -93,7 +96,7 @@ struct ReportsView: View {
     }
 
     func findDominantDimension(in expenses: [Expense]) -> String? {
-        let analyzedExpenses = expenses.filter { !$0.dimension.isEmpty }
+        let analyzedExpenses = expenses.filter { !$0.isInvalidated && !$0.dimension.isEmpty }
         guard !analyzedExpenses.isEmpty else { return nil }
 
         let dimensionCounts = Dictionary(grouping: analyzedExpenses, by: { $0.dimension })

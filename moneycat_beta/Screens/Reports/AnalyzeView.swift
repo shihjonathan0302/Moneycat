@@ -39,6 +39,12 @@ struct AnalyzeView: View {
                 
                 Section {
                     Button(action: {
+                        // Check if the expense is still valid
+                        if expense.isInvalidated {
+                            print("Error: Attempted to analyze an invalidated expense.")
+                            return
+                        }
+
                         let expectationScore = Double(q3 + q4) / 2.0
                         let attractionScore = Double(q5 + q6) / 2.0
                         let mustHaveScore = Double(q1 + q2) / 2.0

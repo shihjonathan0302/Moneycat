@@ -12,8 +12,8 @@ struct ExpensesView: View {
     @State private var selectedTimeRange: TimeRange = .month
     @State private var showingEditExpenseSheet = false
     @State private var selectedExpense: Expense? = nil
-    @State private var showDeleteConfirmation = false // State to show confirmation alert
-
+    @State private var showDeleteConfirmation = false
+    
     var body: some View {
         VStack {
             Picker("Time Range", selection: $selectedTimeRange) {
@@ -39,7 +39,7 @@ struct ExpensesView: View {
             Spacer().frame(height: 30)
 
             List {
-                ForEach(realmManager.expenses) { expense in
+                ForEach(realmManager.expenses.filter { !$0.isInvalidated }) { expense in  // Filter for valid expenses
                     VStack(alignment: .leading, spacing: 4) {
                         Text(expense.note)
                             .font(.headline)
@@ -50,8 +50,8 @@ struct ExpensesView: View {
                     .padding(.vertical, 8)
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
-                            selectedExpense = expense // Set the selected expense
-                            showDeleteConfirmation = true // Show confirmation alert
+                            selectedExpense = expense
+                            showDeleteConfirmation = true
                         } label: {
                             Label("Delete", systemImage: "trash")
                         }
@@ -72,19 +72,21 @@ struct ExpensesView: View {
                 primaryButton: .destructive(Text("Delete")) {
                     if let expenseToDelete = selectedExpense {
                         realmManager.deleteExpense(expenseToDelete)
-                        selectedExpense = nil // Clear the selected expense
+                        realmManager.loadExpenses() // Reload expenses after deletion
+                        selectedExpense = nil
                     }
                 },
                 secondaryButton: .cancel {
-                    selectedExpense = nil // Clear the selected expense if canceled
+                    selectedExpense = nil
                 }
             )
         }
     }
+    
     func generateChartData(for timeRange: TimeRange) -> [ChartSegmentData]? {
-        let filteredExpenses = realmManager.expenses.filter {
-            Calendar.current.isDate($0.date, equalTo: Date(), toGranularity: timeRange.calendarComponent)
-        }
+        let filteredExpenses = realmManager.expenses
+            .filter { !$0.isInvalidated && Calendar.current.isDate($0.date, equalTo: Date(), toGranularity: timeRange.calendarComponent) }
+        
         guard !filteredExpenses.isEmpty else { return nil }
 
         let total = filteredExpenses.reduce(0) { $0 + $1.amount }

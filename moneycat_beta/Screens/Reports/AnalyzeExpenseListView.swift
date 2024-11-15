@@ -14,10 +14,9 @@ struct AnalyzeExpenseListView: View {
     @State private var showAnalyzeView = false
     @Binding var resetToRoot: Bool // Bind resetToRoot from ReportsView
 
-
     var body: some View {
         List {
-            ForEach(realmManager.expenses.filter { $0.needOrWant == "Want" }) { expense in
+            ForEach(realmManager.expenses.filter { $0.needOrWant == "Want" && !$0.isInvalidated }) { expense in
                 HStack {
                     VStack(alignment: .leading) {
                         Text("Expense: \(expense.note)")
@@ -45,6 +44,10 @@ struct AnalyzeExpenseListView: View {
         .navigationDestination(isPresented: $showAnalyzeView) {
             if let expense = selectedExpense {
                 AnalyzeView(expense: expense, resetToRoot: $resetToRoot)
+                    .onDisappear {
+                        selectedExpense = nil // Clear selected expense after analysis
+                        realmManager.loadExpenses() // Optional: refresh expenses if necessary
+                    }
             }
         }
      }
