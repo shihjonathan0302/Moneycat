@@ -13,7 +13,7 @@ struct AnalyzeExpenseListView: View {
     @State private var selectedExpense: Expense? = nil
     @State private var showAnalyzeView = false
     @Binding var resetToRoot: Bool // Bind resetToRoot from ReportsView
-    
+
     var body: some View {
         List {
             ForEach(realmManager.expenses.filter { $0.needOrWant == "Want" && !$0.isInvalidated }) { expense in
@@ -30,35 +30,34 @@ struct AnalyzeExpenseListView: View {
                         }
                     }
                     Spacer()
-                    
-                    // Button to analyze each expense
-                    Button(action: {
-                        if !expense.isInvalidated { // Double-check if expense is valid
+                }
+                .swipeActions(edge: .trailing) { // Swipe right to analyze
+                    Button {
+                        if !expense.isInvalidated {
                             selectedExpense = expense
                             showAnalyzeView = true
                         } else {
                             print("Attempted to analyze an invalidated expense.")
                         }
-                    }) {
-                        Text("Analyze")
-                            .foregroundColor(.blue)
+                    } label: {
+                        Label("Analyze", systemImage: "magnifyingglass")
                     }
-                  }
+                    .tint(.orange) // Set swipe action color
                 }
             }
-            .navigationTitle("Analyze Expenses")
-            .navigationDestination(isPresented: $showAnalyzeView) {
-                if let expense = selectedExpense, !expense.isInvalidated {
-                    AnalyzeView(expense: expense, resetToRoot: $resetToRoot)
-                        .onDisappear {
-                            selectedExpense = nil
-                            realmManager.loadExpenses()
-                        }
-                } else {
-                    Text("The selected expense is no longer available.")
-                        .foregroundColor(.red)
-                        .font(.body)
-            
+        }
+        .navigationTitle("Analyze Expenses")
+        .navigationDestination(isPresented: $showAnalyzeView) {
+            if let expense = selectedExpense, !expense.isInvalidated {
+                AnalyzeView(expense: expense, resetToRoot: $resetToRoot)
+                    .onDisappear {
+                        selectedExpense = nil
+                        realmManager.loadExpenses()
+                    }
+            } else {
+                Text("The selected expense is no longer available.")
+                    .foregroundColor(.red)
+                    .font(.body)
             }
         }
     }

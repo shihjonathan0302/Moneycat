@@ -49,12 +49,15 @@ class RealmManager: ObservableObject {
         }
     }
 
+
+
     func updateExpense(expense: Expense, better: Double, worse: Double, dimension: String) {
         guard let localRealm = localRealm else {
             print("Debug: Realm instance is nil; unable to update expense.")
             return
         }
 
+        // Ensure the expense object is valid
         guard !expense.isInvalidated else {
             print("Debug: Attempted to update an invalidated or non-existent expense.")
             return
@@ -69,12 +72,12 @@ class RealmManager: ObservableObject {
             }
             print("Updated Expense: \(expense.note), Better: \(better), Worse: \(worse), Dimension: \(dimension)")
 
-            updateTrigger.toggle()
+            updateTrigger.toggle() // Notify observers
         } catch {
             print("Error updating expense: \(error.localizedDescription)")
         }
     }
-
+ 
     func loadExpenses() {
         if let localRealm = localRealm {
             let allExpenses = localRealm.objects(Expense.self).filter { !$0.isInvalidated }

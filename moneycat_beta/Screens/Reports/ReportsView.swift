@@ -14,6 +14,8 @@ struct ReportsView: View {
     @State private var showAnalyzeList = false
     @State private var resetToRoot = false
     @State private var dominantDimension: String? = nil
+    
+    @State private var isExpenseInvalid = false // New state for invalidated expense check
 
     var body: some View {
         NavigationStack {
@@ -38,7 +40,6 @@ struct ReportsView: View {
                                 .cornerRadius(8)
                         }
                         .padding()
-                        
                         .onAppear {
                             updateDominantDimension(expensesToAnalyze)
                         }
