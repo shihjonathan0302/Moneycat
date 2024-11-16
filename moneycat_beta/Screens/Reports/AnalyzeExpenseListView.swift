@@ -23,12 +23,14 @@ struct AnalyzeExpenseListView: View {
                         Text("Amount: \(Int(expense.amount))") // Display amount without decimal
                         if expense.betterCoefficient != 0.0 && expense.worseCoefficient != 0.0 {
                             Text("Analyzed")
+                                .foregroundColor(.green)
                         } else {
                             Text("Not Analyzed")
+                                .foregroundColor(.red)
                         }
                     }
                     Spacer()
-
+                    
                     // Button to analyze each expense
                     Button(action: {
                         if !expense.isInvalidated { // Double-check if expense is valid
@@ -46,14 +48,13 @@ struct AnalyzeExpenseListView: View {
         }
         .navigationTitle("Analyze Expenses")
         .navigationDestination(isPresented: $showAnalyzeView) {
-            if let expense = selectedExpense, !expense.isInvalidated { // Ensure selectedExpense is valid
+            if let expense = selectedExpense, !expense.isInvalidated {
                 AnalyzeView(expense: expense, resetToRoot: $resetToRoot)
                     .onDisappear {
-                        selectedExpense = nil // Clear selected expense after analysis
-                        realmManager.loadExpenses() // Refresh expenses after analysis
+                        selectedExpense = nil
+                        realmManager.loadExpenses()
                     }
             } else {
-                // Fallback message if the expense becomes invalidated
                 Text("The selected expense is no longer available.")
                     .foregroundColor(.red)
                     .font(.body)

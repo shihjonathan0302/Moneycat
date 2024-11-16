@@ -24,7 +24,7 @@ struct AnalyzeView: View {
     @State private var q8 = 3
 
     @State private var isExpenseInvalid = false // New state for invalidated expense check
-
+    
     var body: some View {
         VStack {
             if isExpenseInvalid {
@@ -35,7 +35,6 @@ struct AnalyzeView: View {
                     .padding()
                 Spacer()
             } else {
-                // Show the analysis questions if the expense is valid
                 List {
                     Group {
                         QuestionView(questionText: "1. After purchasing this item, are you satisfied with it?", rating: $q1)
@@ -99,7 +98,6 @@ struct AnalyzeView: View {
         .navigationTitle("Analyze")
         .background(Color(.systemGray6).ignoresSafeArea())
         .onAppear {
-            // Check if the expense is invalidated when the view appears
             isExpenseInvalid = expense.isInvalidated
         }
     }
@@ -122,7 +120,7 @@ struct QuestionView: View {
     @Binding var rating: Int
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 5) {
             Text(questionText)
                 .font(.body)
                 .padding(.bottom, 5)
@@ -134,6 +132,6 @@ struct QuestionView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
         }
-        .padding(.vertical, 8)  // Add vertical spacing between questions
+        .padding(.vertical, 8)
     }
 }
