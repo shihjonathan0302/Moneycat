@@ -13,40 +13,39 @@ struct AddCategoryView: View {
     @State private var selectedColor: Color = .blue  // Default color
 
     var body: some View {
-        VStack(alignment: .leading) {
-            // Title at the top
-            Text("Add New Category")
-                .font(.largeTitle.bold())
-                .padding([.top, .horizontal])  // Extra padding for the title
-
-            // Main form in a list format
+        VStack(alignment: .leading, spacing: 20) {
+            // Main form
             List {
                 Section {
                     // Color Picker section
                     VStack(alignment: .leading) {
-                        Text("Select Color")
-                            .font(.headline)
-                        ColorPicker("Category Color", selection: $selectedColor)
-                            .padding(.top, 8)  // Add top padding to give spacing
+                        ColorPicker("Select Color", selection: $selectedColor)
+                            .padding(.top, 8)
                     }
                     .padding(.vertical, 8)
 
-                    // New Category Input with button inside a horizontal stack
-                    HStack {
+                    // New Category Input with button
+                    HStack(spacing: 8) {
                         TextField("Enter New Category", text: $newCategoryName)
                             .padding(10)
-                            .background(Color.gray.opacity(0.2))
+                            .background(Color(.systemGray6))
                             .cornerRadius(8)
+                            .frame(height: 44) // Match height with button
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                            )
 
                         Button(action: {
+                            guard !newCategoryName.isEmpty else { return }
                             let newCategory = ExpenseCategory(name: newCategoryName, color: PersistableColor(color: selectedColor))
                             realmManager.submitCategory(newCategory)
                             newCategoryName = ""  // Reset the field
                         }) {
                             Text("Add")
                                 .foregroundColor(.white)
-                                .padding()
-                                .background(Color.blue)
+                                .frame(width: 100, height: 44) // Fixed width and height
+                                .background(Color.orange)
                                 .cornerRadius(8)
                         }
                     }
@@ -58,20 +57,23 @@ struct AddCategoryView: View {
                     ForEach(realmManager.categories, id: \.id) { category in
                         HStack {
                             Circle()
-                                .fill(Color(persistableColor: category.color ?? PersistableColor(color: .blue)))  // Display category color
+                                .fill(Color(persistableColor: category.color ?? PersistableColor(color: .blue)))
                                 .frame(width: 20, height: 20)
 
                             Text(category.name)
-                                .padding(.leading, 8)  // Add some space between circle and text
+                                .padding(.leading, 8)
                         }
-                        .padding(.vertical, 4)  // Add some vertical padding between each row
+                        .padding(.vertical, 4)
                     }
                 }
             }
-            .listStyle(InsetGroupedListStyle())  // Make the list look grouped and modern
-
-            Spacer()
+            .navigationTitle("Add Category")
+            .listStyle(InsetGroupedListStyle()) // Grouped style for a modern look
+            .background(Color(.systemGray6))    // Gray background for the entire list
+            .cornerRadius(10)                  // Corner radius for the list container
+            .padding(.top, -15)                // Reduce spacing under the navigation bar
         }
-        .padding(.horizontal)  // Padding for the outermost view
+        .padding()
+        .background(Color(.systemGray6).ignoresSafeArea()) // Full gray background
     }
 }

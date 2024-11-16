@@ -83,7 +83,7 @@ struct AnalyzeView: View {
                                 .foregroundColor(.white)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color.blue)
+                                .background(Color.orange)
                                 .cornerRadius(8)
                                 .padding(.vertical, 8)
                         }
