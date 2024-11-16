@@ -146,7 +146,7 @@ struct AddExpenseView: View {
                     selectedCategory = nil
                     needOrWant = "Need"
                 }) {
-                    Text("Add Expense")
+                    Text("Add")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()
