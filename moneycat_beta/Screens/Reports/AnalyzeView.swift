@@ -76,7 +76,7 @@ struct AnalyzeView: View {
 
                             print("Expense Dimension Set: \(calculatedDimension)")
 
-                            realmManager.loadExpenses()
+                            realmManager.loadObservedExpenses()
                             resetToRoot = true
                         }) {
                             Text("Submit")

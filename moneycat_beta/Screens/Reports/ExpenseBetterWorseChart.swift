@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 struct ExpenseBetterWorseChart: View {
-    var expenses: [Expense]
+    @ObservedObject var realmManager: RealmManager // Observe RealmManager changes
 
     var body: some View {
         ZStack {
@@ -59,7 +59,7 @@ struct ExpenseBetterWorseChart: View {
                     .foregroundStyle(Color.blue.opacity(0.15))
 
                 // Filter out invalidated expenses
-                ForEach(expenses.filter { !$0.isInvalidated }, id: \.id) { expense in
+                ForEach(realmManager.observedExpenses.filter { !$0.isInvalidated }, id: \.id) { expense in
                     let better = expense.betterCoefficient
                     let worse = expense.worseCoefficient
                     let categoryColor = expense.category?.color?.toUIColor() ?? UIColor.gray

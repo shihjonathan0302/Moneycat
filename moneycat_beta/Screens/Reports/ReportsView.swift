@@ -26,7 +26,7 @@ struct ReportsView: View {
                     let expensesToAnalyze = validExpenses.filter { $0.needOrWant == "Want" && !$0.dimension.isEmpty }
                     
                     if !expensesToAnalyze.isEmpty {
-                        ExpenseBetterWorseChart(expenses: expensesToAnalyze)
+                        ExpenseBetterWorseChart(realmManager: realmManager)
                             .frame(height: 300)
                             .padding()
 
@@ -80,6 +80,10 @@ struct ReportsView: View {
                     resetToRoot = false
                 }
             }
+            .onReceive(realmManager.$updateTrigger) { _ in
+                 // Refresh chart data whenever the trigger changes
+                 updateDominantDimension(realmManager.expenses.filter { !$0.isInvalidated })
+             }
         }
     }
 

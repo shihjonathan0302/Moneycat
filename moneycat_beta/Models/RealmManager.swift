@@ -15,6 +15,8 @@ class RealmManager: ObservableObject {
     @Published var categories: [ExpenseCategory] = []
     @Published var isDarkMode: Bool = false
     @Published var updateTrigger: Bool = false  // Trigger property to force update
+    
+    @Published var observedExpenses: [Expense] = [] // Dynamically observed
 
     init() {
         openRealm()
@@ -49,19 +51,8 @@ class RealmManager: ObservableObject {
         }
     }
 
-
-
     func updateExpense(expense: Expense, better: Double, worse: Double, dimension: String) {
-        guard let localRealm = localRealm else {
-            print("Debug: Realm instance is nil; unable to update expense.")
-            return
-        }
-
-        // Ensure the expense object is valid
-        guard !expense.isInvalidated else {
-            print("Debug: Attempted to update an invalidated or non-existent expense.")
-            return
-        }
+        guard let localRealm = localRealm, !expense.isInvalidated else { return }
 
         do {
             try localRealm.write {
@@ -70,11 +61,10 @@ class RealmManager: ObservableObject {
                 expense.dimension = dimension
                 localRealm.add(expense, update: .modified)
             }
-            print("Updated Expense: \(expense.note), Better: \(better), Worse: \(worse), Dimension: \(dimension)")
-
-            updateTrigger.toggle() // Notify observers
+            print("Updated Expense: \(expense.note)")
+            loadObservedExpenses() // Refresh observed expenses
         } catch {
-            print("Error updating expense: \(error.localizedDescription)")
+            print("Error updating expense: \(error)")
         }
     }
  
@@ -173,6 +163,12 @@ class RealmManager: ObservableObject {
             return "Must"
         } else {
             return "Indifferent"
+        }
+    }
+    
+    func loadObservedExpenses() {
+        if let localRealm = localRealm {
+            observedExpenses = Array(localRealm.objects(Expense.self).filter { !$0.isInvalidated })
         }
     }
 }
