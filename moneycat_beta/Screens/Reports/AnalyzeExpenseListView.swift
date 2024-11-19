@@ -21,29 +21,27 @@ struct AnalyzeExpenseListView: View {
                     VStack(alignment: .leading) {
                         Text("Expense: \(expense.note)")
                         Text("Amount: \(Int(expense.amount))") // Display amount without decimal
-                        if expense.betterCoefficient != 0.0 && expense.worseCoefficient != 0.0 {
-                            Text("Analyzed")
-                                .foregroundColor(.green)
-                        } else {
-                            Text("Not Analyzed")
-                                .foregroundColor(.red)
-                        }
                     }
                     Spacer()
-                }
-                .swipeActions(edge: .trailing) { // Swipe right to analyze
-                    Button {
+
+                    // Button as "Analyzed" or "Not Analyzed" with color
+                    Button(action: {
                         if !expense.isInvalidated {
                             selectedExpense = expense
                             showAnalyzeView = true
                         } else {
                             print("Attempted to analyze an invalidated expense.")
                         }
-                    } label: {
-                        Label("Analyze", systemImage: "magnifyingglass")
+                    }) {
+                        Text(expense.betterCoefficient != 0.0 && expense.worseCoefficient != 0.0 ? "Analyzed" : "Not Analyzed")
+                            .font(.headline)
+                            .foregroundColor(expense.betterCoefficient != 0.0 && expense.worseCoefficient != 0.0 ? .green : .red)
+                            .padding(8)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
                     }
-                    .tint(.orange) // Set swipe action color
                 }
+                .padding(.vertical, 8) // Add vertical spacing between rows
             }
         }
         .navigationTitle("Analyze Expenses")

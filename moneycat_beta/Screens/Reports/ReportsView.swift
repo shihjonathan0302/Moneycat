@@ -30,34 +30,16 @@ struct ReportsView: View {
                             .frame(height: 300)
                             .padding()
 
-                        // Button Row: Analyze and Refresh
-                    HStack(spacing: 24) {
-                        // Analyze Button
                         Button(action: {
                             showAnalyzeList = true
                         }) {
                             Text("Analyze")
                                 .foregroundColor(.white)
-                                .padding(.horizontal, 24) // Adjust width by padding
-                                .padding(.vertical, 15)
+                                .padding()
+
                                 .background(Color.orange)
                                 .cornerRadius(8)
                         }
-
-                        // Refresh Button
-                        Button(action: {
-                            realmManager.loadObservedExpenses()
-                        }) {
-                            Image(systemName: "arrow.clockwise")
-                                .foregroundColor(.orange)
-                                .frame(width: 20, height: 20)
-                                .padding(.vertical, 15) // Match Analyze button height
-                                .padding(.horizontal, 24) // Same width padding as Analyze button
-                                .background(Color.white)
-                                .cornerRadius(8)
-                        }
-                        .frame(width: 44, height: 44) // Square button for consistency
-                    }
                         
                         .padding()
                         .onAppear {
