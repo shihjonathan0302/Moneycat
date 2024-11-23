@@ -50,7 +50,7 @@ struct AnalyzeExpenseListView: View {
                 AnalyzeView(expense: expense, resetToRoot: $resetToRoot)
                     .onDisappear {
                         selectedExpense = nil
-                        realmManager.loadExpenses()
+                        realmManager.refreshExpenses()
                     }
             } else {
                 Text("The selected expense is no longer available.")

@@ -16,11 +16,9 @@ class RealmManager: ObservableObject {
     @Published var isDarkMode: Bool = false
     @Published var updateTrigger: Bool = false  // Trigger property to force update
     
-    @Published var observedExpenses: [Expense] = [] // Dynamically observed
-
     init() {
         openRealm()
-        loadExpenses()
+        refreshExpenses()
         loadCategories()
         addDefaultCategoriesIfNeeded()
     }
@@ -45,6 +43,7 @@ class RealmManager: ObservableObject {
                     categories.removeAll()
                     print("All data erased.")
                 }
+                updateTrigger.toggle() // Notify observers of the change
             } catch {
                 print("Error erasing data: \(error.localizedDescription)")
             }
@@ -59,44 +58,37 @@ class RealmManager: ObservableObject {
                 expense.betterCoefficient = better
                 expense.worseCoefficient = worse
                 expense.dimension = dimension
-                localRealm.add(expense, update: .modified)
             }
             print("Updated Expense: \(expense.note)")
-            loadObservedExpenses() // Refresh observed expenses
+            updateTrigger.toggle() // Notify observers without reloading all expenses
         } catch {
             print("Error updating expense: \(error)")
         }
     }
  
-    func loadExpenses() {
-        if let localRealm = localRealm {
-            let allExpenses = localRealm.objects(Expense.self).filter { !$0.isInvalidated }
-            expenses = Array(allExpenses)
-            print("Loaded \(expenses.count) expenses")
-        }
-    }
+//    func loadExpenses() {
+//        if let localRealm = localRealm {
+//            let allExpenses = localRealm.objects(Expense.self).filter { !$0.isInvalidated }
+//            expenses = Array(allExpenses)
+//            observedExpenses = expenses // Synchronize observed expenses
+//            print("Loaded \(expenses.count) expenses")
+//        }
+//    }
 
     func deleteExpense(_ expense: Expense) {
-        guard let localRealm = localRealm else {
-            print("Debug: Realm instance is nil; unable to delete expense.")
-            return
-        }
-
-        guard !expense.isInvalidated else {
-            print("Debug: Attempted to delete an invalidated expense.")
-            return
-        }
+        guard let localRealm = localRealm, !expense.isInvalidated else { return }
 
         do {
             try localRealm.write {
                 localRealm.delete(expense)
             }
-            loadExpenses()
-            print("Debug: Expense deleted and expenses reloaded.")
+            refreshExpenses() // Unified refresh
+            print("Expense deleted")
         } catch {
             print("Error deleting expense: \(error.localizedDescription)")
         }
     }
+
 
     func loadCategories() {
         if let localRealm = localRealm {
@@ -129,7 +121,7 @@ class RealmManager: ObservableObject {
                         localRealm.add(expense)
                     }
                 }
-                loadExpenses()
+                refreshExpenses()
                 print("Expense submitted: \(expense.note)")
             } catch {
                 print("Error submitting expense to Realm: \(error.localizedDescription)")
@@ -166,9 +158,20 @@ class RealmManager: ObservableObject {
         }
     }
     
-    func loadObservedExpenses() {
-        if let localRealm = localRealm {
-            observedExpenses = Array(localRealm.objects(Expense.self).filter { !$0.isInvalidated })
-        }
+    func refreshExpenses() {
+        guard let localRealm = localRealm else { return }
+
+        print("Refreshing all expenses")
+        let allExpenses = localRealm.objects(Expense.self).filter { !$0.isInvalidated }
+        expenses = Array(allExpenses)
+        print("Refreshed \(expenses.count) expenses")
+        updateTrigger.toggle() // Notify observers of the change
     }
+
+    
+//    func loadObservedExpenses() {
+//        if let localRealm = localRealm {
+//            observedExpenses = Array(localRealm.objects(Expense.self).filter { !$0.isInvalidated })
+//        }
+//    }
 }

@@ -13,6 +13,7 @@ struct ExpensesView: View {
     
     var body: some View {
         VStack {
+            // Time Range Picker
             Picker("Time Range", selection: $selectedTimeRange) {
                 ForEach(TimeRange.allCases, id: \.self) { range in
                     Text(range.rawValue.capitalized)
@@ -21,6 +22,7 @@ struct ExpensesView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal)
 
+            // Chart Data
             if let chartData = generateChartData(for: selectedTimeRange) {
                 VerticalBarChartView(data: chartData)
                     .frame(height: 250)
@@ -35,8 +37,9 @@ struct ExpensesView: View {
 
             Spacer().frame(height: 30)
 
+            // Expenses List
             List {
-                ForEach(realmManager.expenses.filter { !$0.isInvalidated }) { expense in  // Filter for valid expenses
+                ForEach(realmManager.expenses.filter { !$0.isInvalidated }) { expense in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(expense.note)
                             .font(.headline)
@@ -47,12 +50,7 @@ struct ExpensesView: View {
                     .padding(.vertical, 8)
                     .swipeActions(edge: .trailing) {
                         Button(role: .destructive) {
-                            if !expense.isInvalidated {  // Double-check validity before deleting
-                                realmManager.deleteExpense(expense)
-                                realmManager.loadExpenses() // Reload expenses after deletion
-                            } else {
-                                print("Expense is already deleted or invalidated.")
-                            }
+                            realmManager.deleteExpense(expense)
                         } label: {
                             Label("Delete", systemImage: "trash")
                         }
@@ -66,6 +64,10 @@ struct ExpensesView: View {
         .padding()
         .background(Color(.systemGray6))
         .navigationTitle("Expenses")
+        .onReceive(realmManager.$updateTrigger) { _ in
+            // Automatically refresh UI when expenses are updated
+            print("Debug: updateTrigger fired, refreshing ExpensesView")
+        }
     }
     
     func generateChartData(for timeRange: TimeRange) -> [ChartSegmentData]? {

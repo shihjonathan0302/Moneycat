@@ -24,7 +24,7 @@ struct AnalyzeView: View {
     @State private var q8 = 3
 
     @State private var isExpenseInvalid = false // New state for invalidated expense check
-    
+
     var body: some View {
         VStack {
             if isExpenseInvalid {
@@ -74,9 +74,13 @@ struct AnalyzeView: View {
                                 dimension: calculatedDimension
                             )
 
-                            print("Expense Dimension Set: \(calculatedDimension)")
-
-                            realmManager.loadObservedExpenses()
+                            print("Debug: Submitted expense: \(expense.note)")
+                            print("Debug: Better Coefficient: \(betterCoefficient * 100)")
+                            print("Debug: Worse Coefficient: \(worseCoefficient * 100)")
+                            print("Debug: Dimension: \(calculatedDimension)")
+                            
+                            // Notify other views to refresh without directly refreshing expenses
+                            realmManager.updateTrigger.toggle()
                             resetToRoot = true
                         }) {
                             Text("Submit")

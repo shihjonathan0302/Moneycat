@@ -18,10 +18,6 @@ struct ContentView: View {
             }
             .tabItem { Label("Reports", systemImage: "chart.xyaxis.line") }
             .tag(1)
-            .onAppear {
-                // Optionally reload expenses to ensure data consistency
-                realmManager.loadExpenses()
-            }
 
             NavigationStack {
                 AddExpenseView()
@@ -41,12 +37,9 @@ struct ContentView: View {
             .tabItem { Label("Settings", systemImage: "gearshape") }
             .tag(4)
         }
-        .onReceive(realmManager.$updateTrigger) { _ in
-            // Listen for Realm updates and refresh as needed
-            realmManager.loadExpenses()
-        }
         .onAppear {
             UITabBar.appearance().backgroundColor = UIColor.systemBackground
+            print("Debug: ContentView appeared, selectedTab: \(selectedTab)")
         }
     }
 }
