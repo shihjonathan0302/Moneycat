@@ -36,16 +36,58 @@ struct AnalyzeView: View {
                 Spacer()
             } else {
                 List {
-                    Group {
-                        QuestionView(questionText: "1. After purchasing this item, are you satisfied with it?", rating: $q1)
-                        QuestionView(questionText: "2. If you did not purchase this item, would you feel dissatisfied?", rating: $q2)
-                        QuestionView(questionText: "3. After purchasing this item, do you feel happy or fulfilled?", rating: $q3)
-                        QuestionView(questionText: "4. If you did not purchase this item, would you feel sad or regretful?", rating: $q4)
-                        QuestionView(questionText: "5. Does this item meet the value you expected it to have?", rating: $q5)
-                        QuestionView(questionText: "6. If this item does not exceed your expectations, does it affect your satisfaction?", rating: $q6)
-                        QuestionView(questionText: "7. After purchasing this item, has it impacted your life?", rating: $q7)
-                        QuestionView(questionText: "8. If you did not purchase this item, would your life be affected?", rating: $q8)
+                    Section(header: Text("Must-Be")) {
+                        QuestionView(
+                            questionText: "1. After purchasing this item, are you satisfied with it?",
+                            labels: ["Very Unsatisfied", "Unsatisfied", "Neutral", "Satisfied", "Very Satisfied"],
+                            rating: $q1
+                        )
+                        QuestionView(
+                            questionText: "2. If you did not purchase this item, would you feel dissatisfied?",
+                            labels: ["Not at all", "Slightly", "Neutral", "Fairly", "Very Dissatisfied"],
+                            rating: $q2
+                        )
                     }
+
+                    Section(header: Text("Attractive")) {
+                        QuestionView(
+                            questionText: "3. After purchasing this item, do you feel happy or fulfilled?",
+                            labels: ["Not at all", "Slightly", "Neutral", "Fairly", "Very Fulfilled"],
+                            rating: $q3
+                        )
+                        QuestionView(
+                            questionText: "4. If you did not purchase this item, would you feel sad or regretful?",
+                            labels: ["Not at all", "Slightly", "Neutral", "Fairly", "Very Sad"],
+                            rating: $q4
+                        )
+                    }
+
+                    Section(header: Text("Performance")) {
+                        QuestionView(
+                            questionText: "5. Does this item meet the value you expected it to have?",
+                            labels: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"],
+                            rating: $q5
+                        )
+                        QuestionView(
+                            questionText: "6. If this item does not exceed your expectations, does it affect your satisfaction?",
+                            labels: ["Not at all", "Slightly", "Neutral", "Fairly", "Very Much"],
+                            rating: $q6
+                        )
+                    }
+
+                    Section(header: Text("Indifferent")) {
+                        QuestionView(
+                            questionText: "7. After purchasing this item, has it impacted your life?",
+                            labels: ["Not at all", "Slightly", "Neutral", "Fairly", "Very Much"],
+                            rating: $q7
+                        )
+                        QuestionView(
+                            questionText: "8. If you did not purchase this item, would your life be affected?",
+                            labels: ["Not at all", "Slightly", "Neutral", "Fairly", "Very Much"],
+                            rating: $q8
+                        )
+                    }
+
 
                     Section {
                         Button(action: {
@@ -121,20 +163,33 @@ struct AnalyzeView: View {
 
 struct QuestionView: View {
     var questionText: String
+    var labels: [String] // Text labels for the slider
     @Binding var rating: Int
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 10) {
             Text(questionText)
                 .font(.body)
                 .padding(.bottom, 5)
 
-            Picker("", selection: $rating) {
-                ForEach(1..<6) { i in
-                    Text("\(i)").tag(i)
+            // Slider with labels
+            VStack {
+                Slider(value: Binding(
+                    get: { Double(rating - 1) }, // Convert 1-5 to 0-4 for slider
+                    set: { rating = Int($0) + 1 } // Convert back to 1-5
+                ), in: 0...4, step: 1)
+                    .accentColor(.orange)
+
+                // Dynamic text labels below the slider
+                HStack {
+                    ForEach(labels.indices, id: \.self) { index in
+                        Text(labels[index])
+                            .font(.caption)
+                            .frame(maxWidth: .infinity) // Evenly space labels
+                            .foregroundColor(index == rating - 1 ? .orange : .gray)
+                    }
                 }
             }
-            .pickerStyle(SegmentedPickerStyle())
         }
         .padding(.vertical, 8)
     }
