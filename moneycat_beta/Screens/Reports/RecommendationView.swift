@@ -13,12 +13,6 @@ struct RecommendationView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
-//                Text("Recommendation")
-//                    .font(.headline)
-//                    .foregroundColor(.primary)
-//                    .padding(.top, 20)
-//                    .padding(.horizontal)
-
                 if !dimension.isEmpty {
                     VStack(alignment: .leading, spacing: 16) {
                         // Criteria Section
