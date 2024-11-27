@@ -25,11 +25,12 @@ struct VerticalBarChartView: View {
                     // Draw bars on top of grid lines
                     VStack(alignment: .leading) {
                         HStack(alignment: .bottom, spacing: 8) {
-                            ForEach(data, id: \.id) { segment in
+                            ForEach(data.indices, id: \.self) { index in
+                                let segment = data[index]
                                 VStack {
                                     Spacer()
                                     Rectangle()
-                                        .fill(segment.color)
+                                        .fill(colorForSegment(at: index))
                                         .frame(
                                             width: geometry.size.width / CGFloat(data.count) * 0.8,
                                             height: CGFloat(segment.amount) / maxAmount() * geometry.size.height
@@ -81,5 +82,19 @@ struct VerticalBarChartView: View {
                 .stroke(Color.gray.opacity(0.3), lineWidth: 1)
             }
         }
+    }
+
+    // Define the color palette for segments
+    private func colorForSegment(at index: Int) -> Color {
+        let colors: [Color] = [
+            Color(red: 1, green: 0.6, blue: 0.1, opacity: 0.9), // Vibrant Deep Orange
+            Color(red: 1, green: 0.7, blue: 0.3, opacity: 0.9), // Vibrant Coral
+            Color(red: 1, green: 0.8, blue: 0.4, opacity: 0.9), // Vibrant Pale Orange
+            Color(red: 1, green: 0.85, blue: 0.5, opacity: 0.9), // Vibrant Apricot
+            Color(red: 1, green: 0.75, blue: 0.2, opacity: 0.9), // Vibrant Golden Yellow
+            Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 0.9), // Vibrant Ochre
+            Color(red: 1, green: 0.9, blue: 0.6, opacity: 0.9)  // Vibrant Light Orange
+        ]
+        return colors[index % colors.count]
     }
 }
