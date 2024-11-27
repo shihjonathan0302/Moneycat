@@ -11,30 +11,54 @@ struct ExpensesView: View {
     @EnvironmentObject var realmManager: RealmManager
     @State private var selectedTimeRange: TimeRange = .month
     @State private var searchQuery: String = ""
+    
+    @State private var isBarChart = true // State for chart type toggle
 
     var body: some View {
         VStack {
-            // Time Range Picker
-            Picker("Time Range", selection: $selectedTimeRange) {
-                ForEach(TimeRange.allCases, id: \.self) { range in
-                    Text(range.rawValue.capitalized)
-                }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding(.horizontal)
-            
-            // Calculate the summary
+            // Summary Section
             let summary = calculateSummary(for: selectedTimeRange)
-
             // Display the summary section
             SummarySection(total: summary.total, topCategory: summary.topCategory, color: summary.color)
-                .padding(.bottom, 10) // Add spacing below the summary section
+                .padding(.bottom, 5) // Add spacing below the summary section
             
-            // Chart Data
+            // Time Range Picker and Toggle
+            HStack {
+                Picker("Time Range", selection: $selectedTimeRange) {
+                    ForEach(TimeRange.allCases, id: \.self) { range in
+                        Text(range.rawValue.capitalized)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+
+                // Toggle Button
+                Button(action: {
+                    isBarChart.toggle()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: isBarChart ? "chart.bar.fill" : "chart.pie.fill")
+                        Text(isBarChart ? "Bar" : "Pie")
+                    }
+                    .font(.footnote)
+                    .padding(8)
+                    .background(Color.orange)
+                    .foregroundColor(Color.white)
+                    .cornerRadius(8)
+                }
+            }
+            .padding([.horizontal, .top])
+
+            // Chart
             if let chartData = generateChartData(for: selectedTimeRange) {
-                VerticalBarChartView(data: chartData)
-                    .frame(height: 250)
-                    .padding([.horizontal, .top], 16)
+                if isBarChart {
+                    VerticalBarChartView(data: chartData)
+                        .frame(height: 250)
+                        .padding(.horizontal)
+                } else {
+                    PieChartView(data: chartData)
+                        .frame(height: 250)
+                        .padding(.horizontal)
+                }
             } else {
                 Text("No expenses to display. Please add some expenses.")
                     .padding()

@@ -39,7 +39,7 @@ struct SummarySection: View {
                 Text(topCategory)
                     .font(.headline)
                     .bold()
-                    .foregroundColor(color)
+                    .foregroundColor(.orange)
             }
             .frame(maxWidth: .infinity, alignment: .leading) // Ensure it takes half the width
         }

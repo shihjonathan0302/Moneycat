@@ -50,7 +50,6 @@ struct RecommendationView: View {
                     .padding()
                     .background(Color.white)
                     .cornerRadius(12)
-                    .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2) // Subtle shadow for elevation
                     .padding(.horizontal)
                     .padding(.bottom, 20) // Additional space above the tab bar
                 } else {
