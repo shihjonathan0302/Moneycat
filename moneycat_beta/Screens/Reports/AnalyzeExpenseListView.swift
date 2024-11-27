@@ -26,7 +26,9 @@ struct AnalyzeExpenseListView: View {
 
         List {
             ForEach(sortedMonths, id: \.self) { month in
-                Section(header: Text(month).font(.headline)) {
+                Section(header: Text(month)
+                    .font(.headline)
+                ) {
                     ForEach(groupedExpenses[month]!.sorted(by: { $0.date > $1.date }), id: \.id) { expense in
                         HStack {
                             VStack(alignment: .leading) {

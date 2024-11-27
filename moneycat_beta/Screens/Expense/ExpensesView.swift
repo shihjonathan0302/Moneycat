@@ -10,7 +10,8 @@ import SwiftUI
 struct ExpensesView: View {
     @EnvironmentObject var realmManager: RealmManager
     @State private var selectedTimeRange: TimeRange = .month
-    
+    @State private var searchQuery: String = ""
+
     var body: some View {
         VStack {
             // Time Range Picker
@@ -21,7 +22,13 @@ struct ExpensesView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal)
+            
+            // Calculate the summary
+                        let summary = calculateSummary(for: selectedTimeRange)
 
+                        // Display the summary section
+                        SummarySection(total: summary.total, topCategory: summary.topCategory, color: summary.color)
+                            .padding(.bottom, 16) // Add spacing below the summary section
             // Chart Data
             if let chartData = generateChartData(for: selectedTimeRange) {
                 VerticalBarChartView(data: chartData)
@@ -34,12 +41,26 @@ struct ExpensesView: View {
 
             Divider()
                 .padding(.vertical)
+            
+            Spacer().frame(height: 20) // Adjust this value as needed
 
-            Spacer().frame(height: 30)
-
-            // Expenses List
+            // Expenses List with Search Bar
             List {
-                ForEach(realmManager.expenses.filter { !$0.isInvalidated }) { expense in
+                // Search Bar as First Item in the List
+                HStack(spacing: 8) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.gray)
+                    TextField("Search by note", text: $searchQuery)
+                        .foregroundColor(.primary)
+                }
+                .padding(10) // Padding for content inside the gray bar
+                .background(Color(.systemGray5))
+                .cornerRadius(10)
+                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)) // Inset within the list
+                .listRowBackground(Color.white) // Ensure it matches the list's background
+
+                // Filtered Expenses
+                ForEach(filteredExpenses()) { expense in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(expense.note)
                             .font(.headline)
@@ -58,8 +79,7 @@ struct ExpensesView: View {
                 }
             }
             .listStyle(PlainListStyle())
-            .cornerRadius(10)
-            .padding(.horizontal)
+            .cornerRadius(8)
         }
         .padding()
         .background(Color(.systemGray6))
@@ -69,11 +89,19 @@ struct ExpensesView: View {
             print("Debug: updateTrigger fired, refreshing ExpensesView")
         }
     }
-    
+
+    // Filter expenses based on the search query
+    private func filteredExpenses() -> [Expense] {
+        let validExpenses = realmManager.expenses.filter { !$0.isInvalidated }
+        return validExpenses.filter { expense in
+            searchQuery.isEmpty || expense.note.localizedCaseInsensitiveContains(searchQuery)
+        }
+    }
+
     func generateChartData(for timeRange: TimeRange) -> [ChartSegmentData]? {
         let filteredExpenses = realmManager.expenses
             .filter { !$0.isInvalidated && Calendar.current.isDate($0.date, equalTo: Date(), toGranularity: timeRange.calendarComponent) }
-        
+
         guard !filteredExpenses.isEmpty else { return nil }
 
         let total = filteredExpenses.reduce(0) { $0 + $1.amount }

@@ -168,7 +168,6 @@ class RealmManager: ObservableObject {
         updateTrigger.toggle() // Notify observers of the change
     }
 
-    
 //    func loadObservedExpenses() {
 //        if let localRealm = localRealm {
 //            observedExpenses = Array(localRealm.objects(Expense.self).filter { !$0.isInvalidated })

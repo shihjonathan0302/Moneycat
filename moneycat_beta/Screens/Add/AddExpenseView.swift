@@ -5,11 +5,6 @@
 //  Created by Jonathan Shih on 2024/10/7.
 //
 
-//
-//  AddExpenseView.swift
-//  moneycat_beta
-//
-
 import SwiftUI
 import RealmSwift
 
@@ -22,6 +17,8 @@ struct AddExpenseView: View {
     @State private var needOrWant = "Need"
     @State private var isShowingCategoryPicker = false
 
+    @State private var showErrorMessage: String? = nil
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -38,6 +35,18 @@ struct AddExpenseView: View {
                             .padding(12)
                             .background(Color(.systemGray6))
                             .cornerRadius(10)
+                            .overlay(
+                                HStack {
+                                    Spacer()
+                                    if !expenseAmount.isEmpty {
+                                        Button(action: { expenseAmount = "" }) {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .foregroundColor(.gray)
+                                        }
+                                        .padding(.trailing, 8)
+                                    }
+                                }
+                            )
                     }
                 }
                 .padding(.vertical, 8)
@@ -128,7 +137,7 @@ struct AddExpenseView: View {
                 // Submit Button
                 Button(action: {
                     guard let amount = Double(expenseAmount), amount > 0 else {
-                        print("Invalid amount")
+                        showErrorMessage = "Please enter a valid amount greater than 0."
                         return
                     }
 
@@ -166,33 +175,3 @@ struct AddExpenseView: View {
     }
 }
 
-// Custom category picker as a sheet
-struct CategoryPickerView: View {
-    @EnvironmentObject var realmManager: RealmManager
-    @Binding var selectedCategory: ExpenseCategory?
-    @Environment(\.presentationMode) var presentationMode  // Environment variable to dismiss the view
-
-    var body: some View {
-        NavigationView {
-            List {
-                ForEach(realmManager.categories, id: \.id) { category in
-                    Button(action: {
-                        selectedCategory = category
-                        presentationMode.wrappedValue.dismiss()  // Dismisses the view when a category is selected
-                    }) {
-                        HStack {
-                            Circle()
-                                .fill(Color(uiColor: category.color?.toUIColor() ?? .gray))
-                                .frame(width: 20, height: 20)
-                            Text(category.name)
-                                .foregroundColor(.black)
-                                .padding(.leading, 8)
-                        }
-                    }
-                }
-            }
-            .foregroundColor(.black)
-            .navigationTitle("Select Category")
-        }
-    }
-}
