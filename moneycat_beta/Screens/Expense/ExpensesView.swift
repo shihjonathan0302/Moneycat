@@ -24,11 +24,12 @@ struct ExpensesView: View {
             .padding(.horizontal)
             
             // Calculate the summary
-                        let summary = calculateSummary(for: selectedTimeRange)
+            let summary = calculateSummary(for: selectedTimeRange)
 
-                        // Display the summary section
-                        SummarySection(total: summary.total, topCategory: summary.topCategory, color: summary.color)
-                            .padding(.bottom, 16) // Add spacing below the summary section
+            // Display the summary section
+            SummarySection(total: summary.total, topCategory: summary.topCategory, color: summary.color)
+                .padding(.bottom, 10) // Add spacing below the summary section
+            
             // Chart Data
             if let chartData = generateChartData(for: selectedTimeRange) {
                 VerticalBarChartView(data: chartData)
