@@ -33,28 +33,37 @@ struct AnalyzeExpenseListView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("Expense: \(expense.note)")
+                                    .font(.body)
+                                    .fontWeight(.semibold)
                                 Text("Amount: \(Int(expense.amount))") // Display amount without decimal
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
                             }
                             Spacer()
-
-                            // Button as "Analyzed" or "Not Analyzed" with color
-                            Button(action: {
+                            if expense.betterCoefficient != 0.0 && expense.worseCoefficient != 0.0 {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
+                                    .accessibilityLabel("Analyzed")
+                            } else {
+                                Image(systemName: "circle")
+                                    .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
+                                    .accessibilityLabel("Not Analyzed")
+                            }
+                        }
+                        .padding(.vertical, 8) // Add vertical spacing between rows
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
                                 if !expense.isInvalidated {
                                     selectedExpense = expense
                                     showAnalyzeView = true
                                 } else {
                                     print("Attempted to analyze an invalidated expense.")
                                 }
-                            }) {
-                                Text(expense.betterCoefficient != 0.0 && expense.worseCoefficient != 0.0 ? "Analyzed" : "Not Analyzed")
-                                    .font(.headline)
-                                    .foregroundColor(expense.betterCoefficient != 0.0 && expense.worseCoefficient != 0.0 ? .green : .red)
-                                    .padding(8)
-                                    .background(Color(.systemGray6))
-                                    .cornerRadius(8)
+                            } label: {
+                                Label("Analyze", systemImage: "magnifyingglass")
                             }
+                            .tint(expense.betterCoefficient != 0.0 && expense.worseCoefficient != 0.0 ? .green : .red)
                         }
-                        .padding(.vertical, 8) // Add vertical spacing between rows
                     }
                 }
             }
