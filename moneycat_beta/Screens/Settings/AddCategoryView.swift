@@ -10,7 +10,7 @@ import SwiftUI
 struct AddCategoryView: View {
     @EnvironmentObject var realmManager: RealmManager
     @State private var newCategoryName: String = ""
-    @State private var selectedColor: Color = .orange  // Default color
+    @State private var selectedColor: Color = (Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))  // Default color
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {

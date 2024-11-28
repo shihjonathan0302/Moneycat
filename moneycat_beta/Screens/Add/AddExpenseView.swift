@@ -25,7 +25,7 @@ struct AddExpenseView: View {
                 // Amount Field
                 HStack(spacing: 12) {
                     Image(systemName: "dollarsign.circle.fill")
-                        .foregroundColor(.orange)
+                        .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                         .frame(width: 20, height: 20)
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Amount")
@@ -54,7 +54,7 @@ struct AddExpenseView: View {
                 // Category Picker
                 HStack(spacing: 12) {
                     Image(systemName: "tag.fill")
-                        .foregroundColor(.orange)
+                        .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                         .frame(width: 20, height: 20)
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Category")
@@ -83,7 +83,7 @@ struct AddExpenseView: View {
                 // Date Picker
                 HStack(spacing: 12) {
                     Image(systemName: "calendar")
-                        .foregroundColor(.orange)
+                        .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                         .frame(width: 20, height: 20)
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Date").font(.headline)
@@ -104,7 +104,7 @@ struct AddExpenseView: View {
                 // Note Field
                 HStack(spacing: 12) {
                     Image(systemName: "pencil.circle.fill")
-                        .foregroundColor(.orange)
+                        .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                         .frame(width: 20, height: 20)
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Note")
@@ -120,7 +120,7 @@ struct AddExpenseView: View {
                 // Need or Want Picker
                 HStack(spacing: 12) {
                     Image(systemName: "questionmark.circle.fill")
-                        .foregroundColor(.orange)
+                        .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                         .frame(width: 20, height: 20)
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Need or Want")
@@ -160,7 +160,7 @@ struct AddExpenseView: View {
                         .foregroundColor(.white)
                         .padding()
                         .frame(width: 140)
-                        .background(Color.orange)
+                        .background(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                         .cornerRadius(8)
                 }
                 .padding(.top, 16)

@@ -41,8 +41,8 @@ struct ExpensesView: View {
                     }
                     .font(.footnote)
                     .padding(8)
-                    .background(Color.orange)
                     .foregroundColor(Color.white)
+                    .background(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                     .cornerRadius(8)
                 }
             }

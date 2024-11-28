@@ -43,7 +43,6 @@ struct PieChartView: View {
                 // Pie Chart
                 ZStack {
                     ForEach(data.indices, id: \.self) { index in
-                        let segment = data[index]
                         PieSliceView(
                             startAngle: startAngle(for: index),
                             endAngle: endAngle(for: index),

@@ -18,7 +18,7 @@ struct RecommendationView: View {
                         // Criteria Section
                         HStack(alignment: .top, spacing: 8) {
                             Image(systemName: "exclamationmark.triangle.fill")
-                                .foregroundColor(.orange)
+                                .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Criteria")
                                     .font(.subheadline)
@@ -34,7 +34,7 @@ struct RecommendationView: View {
                         // Suggestion Section
                         HStack(alignment: .top, spacing: 8) {
                             Image(systemName: "lightbulb.fill")
-                                .foregroundColor(.orange)
+                                .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Suggestion")
                                     .font(.subheadline)

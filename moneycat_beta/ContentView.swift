@@ -38,7 +38,7 @@ struct ContentView: View {
             .tag(4)
         }
         .onAppear {
-            UITabBar.appearance().backgroundColor = UIColor.systemBackground
+            UITabBar.appearance().backgroundColor = UIColor(red: 0.95, green: 0.65, blue: 0.1, alpha: 1) 
             print("Debug: ContentView appeared, selectedTab: \(selectedTab)")
         }
     }

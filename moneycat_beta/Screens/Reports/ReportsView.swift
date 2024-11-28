@@ -14,9 +14,7 @@ struct ReportsView: View {
     @State private var showAnalyzeList = false
     @State private var resetToRoot = false
     @State private var dominantDimension: String? = nil
-    
-    //    @State private var isExpenseInvalid = false // New state for invalidated expense check
-    
+        
     var body: some View {
         NavigationStack {
             VStack {
@@ -46,15 +44,15 @@ struct ReportsView: View {
                                     Text("Analyze")
                                         .foregroundColor(.white)
                                         .padding()
-                                        .background(Color.orange)
+                                        .background(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                                         .cornerRadius(8)
                                 }
                                 
                                 HStack {
                                     Image(systemName: "arrow.clockwise")
-                                        .foregroundColor(.orange)
+                                        .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                                     Text("Refresh")
-                                        .foregroundColor(.orange)
+                                        .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                                 }
                                 .padding()
                                 .background(Color.white)

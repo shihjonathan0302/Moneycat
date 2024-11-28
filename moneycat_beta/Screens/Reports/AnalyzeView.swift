@@ -129,7 +129,7 @@ struct AnalyzeView: View {
                                 .foregroundColor(.white)
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color.orange)
+                                .background(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                                 .cornerRadius(8)
                                 .padding(.vertical, 8)
                         }
@@ -178,7 +178,7 @@ struct QuestionView: View {
                     get: { Double(rating - 1) }, // Convert 1-5 to 0-4 for slider
                     set: { rating = Int($0) + 1 } // Convert back to 1-5
                 ), in: 0...4, step: 1)
-                    .accentColor(.orange)
+                    .accentColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
 
                 // Dynamic text labels below the slider
                 HStack {
@@ -186,7 +186,7 @@ struct QuestionView: View {
                         Text(labels[index])
                             .font(.caption)
                             .frame(maxWidth: .infinity) // Evenly space labels
-                            .foregroundColor(index == rating - 1 ? .orange : .gray)
+                            .foregroundColor(index == rating - 1 ? Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1) : .gray)
                     }
                 }
             }

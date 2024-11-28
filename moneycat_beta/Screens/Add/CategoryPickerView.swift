@@ -31,7 +31,7 @@ struct CategoryPickerView: View {
                             Spacer()
                             if selectedCategory == category {
                                 Image(systemName: "checkmark")
-                                    .foregroundColor(.orange)
+                                    .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
                             }
                         }
                     }

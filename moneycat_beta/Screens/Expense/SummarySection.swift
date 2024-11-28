@@ -22,7 +22,7 @@ struct SummarySection: View {
                 Text("\(Int(total))") // Rounded to an integer
                     .font(.headline)
                     .bold()
-                    .foregroundColor(.orange)
+                    .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
             }
             .frame(maxWidth: .infinity, alignment: .leading) // Ensure it takes half the width
 
@@ -39,7 +39,7 @@ struct SummarySection: View {
                 Text(topCategory)
                     .font(.headline)
                     .bold()
-                    .foregroundColor(.orange)
+                    .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
             }
             .frame(maxWidth: .infinity, alignment: .leading) // Ensure it takes half the width
         }

@@ -17,24 +17,24 @@ struct ExpenseBetterWorseChart: View {
                 Spacer()
                 HStack {
                     Text("Attractive")
-                        .foregroundColor(.green)
+                        .foregroundColor(Color.orange) // Changed to orange
                         .font(.caption)
                         .padding(.leading, 5)
                     Spacer()
                     Text("Indifferent")
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color(red: 1, green: 0.8, blue: 0.5, opacity: 1)) // Lighter orange
                         .font(.caption)
                         .padding(.trailing, 5)
                 }
                 Spacer()
                 HStack {
                     Text("Must")
-                        .foregroundColor(.yellow)
+                        .foregroundColor(Color(red: 1, green: 0.75, blue: 0.3, opacity: 1)) // Golden Orange
                         .font(.caption)
                         .padding(.leading, 5)
                     Spacer()
                     Text("One-Dimensional")
-                        .foregroundColor(.red)
+                        .foregroundColor(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1)) // Vibrant Ochre
                         .font(.caption)
                         .padding(.trailing, 5)
                 }
@@ -48,7 +48,7 @@ struct ExpenseBetterWorseChart: View {
                     yStart: .value("Bottom", 0.0),
                     yEnd: .value("Top", 50.0)
                 )
-                .foregroundStyle(Color.yellow.opacity(0.15))
+                .foregroundStyle(Color(red: 0.8, green: 0.4, blue: 0, opacity: 0.2)) // Burnt Orange
 
                 RectangleMark(
                     xStart: .value("Left", -50.0),
@@ -56,7 +56,7 @@ struct ExpenseBetterWorseChart: View {
                     yStart: .value("Bottom", 0.0),
                     yEnd: .value("Top", 50.0)
                 )
-                .foregroundStyle(Color.red.opacity(0.15))
+                .foregroundStyle(Color(red: 0.95, green: 0.55, blue: 0.05, opacity: 0.2)) // Amber
 
                 RectangleMark(
                     xStart: .value("Left", -100.0),
@@ -64,7 +64,7 @@ struct ExpenseBetterWorseChart: View {
                     yStart: .value("Bottom", 50.0),
                     yEnd: .value("Top", 100.0)
                 )
-                .foregroundStyle(Color.green.opacity(0.15))
+                .foregroundStyle(Color(red: 1, green: 0.5, blue: 0, opacity: 0.2)) // Rich Orange
 
                 RectangleMark(
                     xStart: .value("Left", -50.0),
@@ -72,7 +72,7 @@ struct ExpenseBetterWorseChart: View {
                     yStart: .value("Bottom", 50.0),
                     yEnd: .value("Top", 100.0)
                 )
-                .foregroundStyle(Color.blue.opacity(0.15))
+                .foregroundStyle(Color(red: 1, green: 0.75, blue: 0.25, opacity: 0.2)) // Sunflower Yellow
 
                 ForEach(realmManager.expenses.filter { !$0.isInvalidated && $0.needOrWant == "Want" }, id: \.id) { expense in
                     let better = expense.betterCoefficient
