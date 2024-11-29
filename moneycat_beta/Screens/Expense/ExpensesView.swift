@@ -74,12 +74,20 @@ struct ExpensesView: View {
             // Expenses List with Search Bar
             List {
                 // Search Bar as First Item in the List
-                HStack(spacing: 8) {
+                HStack {
                     // Search Bar
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.gray)
-                    TextField("Search by note", text: $searchQuery)
-                        .foregroundColor(.primary)
+                    HStack(spacing: 8) {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.gray)
+                        TextField("Search by note", text: $searchQuery)
+                            .foregroundColor(.primary)
+                    }
+                    .padding(10)
+                    .background(Color(.systemGray5))
+                    .cornerRadius(10)
+                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+
+                    Spacer() // Separate search bar and sort button visually
 
                     // Sort Button
                     Menu {
@@ -92,7 +100,7 @@ struct ExpensesView: View {
                     } label: {
                         HStack(spacing: 4) {
                             Image(systemName: "line.horizontal.3.decrease.circle")
-                            Text("Filter")
+                            Text("Sort")
                                 .font(.footnote)
                         }
                         .foregroundColor(.white)
@@ -101,12 +109,6 @@ struct ExpensesView: View {
                         .cornerRadius(8)
                     }
                 }
-                
-                .padding(10) // Padding for content inside the gray bar
-                .background(Color(.systemGray5))
-                .cornerRadius(10)
-                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16)) // Inset within the list
-                .listRowBackground(Color.white) // Ensure it matches the list's background
 
                 // Filtered Expenses
                 ForEach(filteredAndSortedExpenses()) { expense in
