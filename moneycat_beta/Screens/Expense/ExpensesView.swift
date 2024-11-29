@@ -13,6 +13,8 @@ struct ExpensesView: View {
     @State private var searchQuery: String = ""
     
     @State private var isBarChart = true // State for chart type toggle
+    @State private var sortOption: SortOption = .dateDescending // Default sorting option
+
 
     var body: some View {
         VStack {
@@ -73,11 +75,33 @@ struct ExpensesView: View {
             List {
                 // Search Bar as First Item in the List
                 HStack(spacing: 8) {
+                    // Search Bar
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
                     TextField("Search by note", text: $searchQuery)
                         .foregroundColor(.primary)
+
+                    // Sort Button
+                    Menu {
+                        Button("Amount (Low to High)") { sortOption = .amountAscending }
+                        Button("Amount (High to Low)") { sortOption = .amountDescending }
+                        Button("Date (New to Old)") { sortOption = .dateDescending }
+                        Button("Date (Old to New)") { sortOption = .dateAscending }
+                        Button("Category (A-Z)") { sortOption = .categoryAscending }
+                        Button("Category (Z-A)") { sortOption = .categoryDescending }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "line.horizontal.3.decrease.circle")
+                            Text("Filter")
+                                .font(.footnote)
+                        }
+                        .foregroundColor(.white)
+                        .padding(8)
+                        .background(Color(red: 0.95, green: 0.65, blue: 0.1, opacity: 1))
+                        .cornerRadius(8)
+                    }
                 }
+                
                 .padding(10) // Padding for content inside the gray bar
                 .background(Color(.systemGray5))
                 .cornerRadius(10)
@@ -85,7 +109,7 @@ struct ExpensesView: View {
                 .listRowBackground(Color.white) // Ensure it matches the list's background
 
                 // Filtered Expenses
-                ForEach(filteredExpenses()) { expense in
+                ForEach(filteredAndSortedExpenses()) { expense in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(expense.note)
                             .font(.headline)
@@ -137,5 +161,30 @@ struct ExpensesView: View {
             let percentage = categoryTotal / total
             return ChartSegmentData(category: category, amount: percentage, color: .orange)
         }
+    }
+    
+    private func filteredAndSortedExpenses() -> [Expense] {
+            let validExpenses = realmManager.expenses.filter { !$0.isInvalidated }
+            let filteredExpenses = validExpenses.filter { searchQuery.isEmpty || $0.note.localizedCaseInsensitiveContains(searchQuery) }
+            print("Filtering \(filteredExpenses.count) expenses")
+
+            switch sortOption {
+            case .amountAscending:
+                return filteredExpenses.sorted { $0.amount < $1.amount }
+            case .amountDescending:
+                return filteredExpenses.sorted { $0.amount > $1.amount }
+            case .dateAscending:
+                return filteredExpenses.sorted { $0.date < $1.date }
+            case .dateDescending:
+                return filteredExpenses.sorted { $0.date > $1.date }
+            case .categoryAscending:
+                return filteredExpenses.sorted { ($0.category?.name ?? "") < ($1.category?.name ?? "") }
+            case .categoryDescending:
+                return filteredExpenses.sorted { ($0.category?.name ?? "") > ($1.category?.name ?? "") }
+            }
+        }
+
+    enum SortOption {
+        case amountAscending, amountDescending, dateAscending, dateDescending, categoryAscending, categoryDescending
     }
 }
