@@ -135,4 +135,4 @@ The Reports Page serves as the analytical hub of the app, where users can gain i
    Example:  
    - *Criteria:* High impact on satisfaction but not critical.  
    - *Suggestions:* These expenses enhance quality of life. Allocate your budget wisely but avoid overindulgence.  
-   ![Recommendation Box](Demo/recommendation_box.png)
+   ![Recommendation Box](Demo/recomendation_box.png)
