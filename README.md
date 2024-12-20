@@ -106,3 +106,33 @@ The following categories summarize user needs:
 - **Indifferent Needs:** These features can be deprioritized.
 
 MoneyCat integrates the KANO Model to ensure we prioritize features that maximize user satisfaction while avoiding unnecessary features that don’t provide value.
+
+# **Project Demo**
+
+## 1. Reports Page
+
+The Reports Page serves as the analytical hub of the app, where users can gain insights into their spending patterns and receive tailored suggestions.
+
+### Key Features:
+
+1. **Analyze an Expense (GIF Demonstration)**  
+   Users can analyze an expense to determine its impact on their overall satisfaction and financial priorities. This is done through the KANO analysis process.  
+   ![Analyze an Expense](path_to_gif_or_image.gif)
+
+2. **Reports Chart**  
+   The chart visualizes the user's expenses as colored dots based on their category. The chart dimensions are derived from the **Better-Worse coefficients** of each expense:
+   - **X-axis (Horizontal):** Represents whether an expense is a basic need or one-dimensional performance feature.
+   - **Y-axis (Vertical):** Represents how attractive or indifferent the expense is.
+
+   By interpreting the chart, users can identify which types of expenses dominate their spending habits.  
+   ![Reports Chart](path_to_reports_chart.png)
+
+3. **Recommendation Box**  
+   The recommendation box provides tailored suggestions based on the analyzed expenses:
+   - **Criteria:** Highlights the importance of a particular type of expense.
+   - **Suggestions:** Offers actionable advice to improve financial habits.
+
+   Example:  
+   - *Criteria:* High impact on satisfaction but not critical.  
+   - *Suggestions:* These expenses enhance quality of life. Allocate your budget wisely but avoid overindulgence.  
+   ![Recommendation Box](path_to_recommendation_box.png)
