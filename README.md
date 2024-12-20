@@ -117,7 +117,7 @@ The Reports Page serves as the analytical hub of the app, where users can gain i
 
 1. **Analyze an Expense (GIF Demonstration)**  
    Users can analyze an expense to determine its impact on their overall satisfaction and financial priorities. This is done through the KANO analysis process.  
-   ![Analyze an Expense](path_to_gif_or_image.gif)
+   ![Analyze an Expense](Demo/Analyze_an_Expense.gif)
 
 2. **Reports Chart**  
    The chart visualizes the user's expenses as colored dots based on their category. The chart dimensions are derived from the **Better-Worse coefficients** of each expense:
@@ -125,7 +125,7 @@ The Reports Page serves as the analytical hub of the app, where users can gain i
    - **Y-axis (Vertical):** Represents how attractive or indifferent the expense is.
 
    By interpreting the chart, users can identify which types of expenses dominate their spending habits.  
-   ![Reports Chart](path_to_reports_chart.png)
+   ![Reports Chart](Demo/reports_chart.png)
 
 3. **Recommendation Box**  
    The recommendation box provides tailored suggestions based on the analyzed expenses:
@@ -135,4 +135,4 @@ The Reports Page serves as the analytical hub of the app, where users can gain i
    Example:  
    - *Criteria:* High impact on satisfaction but not critical.  
    - *Suggestions:* These expenses enhance quality of life. Allocate your budget wisely but avoid overindulgence.  
-   ![Recommendation Box](path_to_recommendation_box.png)
+   ![Recommendation Box](Demo/recommendation_box.png)
