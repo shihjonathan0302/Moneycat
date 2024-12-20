@@ -1,2 +1,4 @@
 # **MoneyCat**
 ### An intuitive app for university students to track their expenses, analyze spending habits, and improve financial decision-making.
+
+![ReportsView Screenshot](path_to_image_or_gif.gif)
