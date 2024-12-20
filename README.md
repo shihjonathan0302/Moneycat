@@ -5,11 +5,11 @@
 
 ### 1. Our Investigation
 Our survey of college students revealed two critical insights:
-1. **Do students track their spending?**
+. **Do students track their spending?**
    - Approximately **46.7% of students track their spending**, while **53.3% do not**.  
    <img src="問卷調查結果/IMG_7608.JPG" alt="Pie Chart - Spending Habit" width="300">
 
-2. **Does tracking spending change financial habits?**
+ **Does tracking spending change financial habits?**
    - Among those who do track their spending, only **51% successfully changed their financial habits**, while **49% did not**.  
    <img src="問卷調查結果/IMG_7609.JPG" alt="Pie Chart - Spending Habit" width="300">
 
@@ -28,11 +28,11 @@ Despite the availability of numerous expense tracking apps, several questions re
 ### 3. Our Aim
 To address these gaps, our goal is to create an app that emphasizes **practicality and effectiveness**. MoneyCat is designed with three main functions to help students not only track their expenses but also make better financial decisions:
 
-1. **Need vs. Want Categorization**  
+a. **Need vs. Want Categorization**  
    - Students can identify whether their expenses are necessities or discretionary, allowing for clearer financial planning.
 
-2. **KANO Analysis**  
+b. **KANO Analysis**  
    - A unique feature that helps users analyze and rate their expenses based on their impact on satisfaction and financial goals.
 
-3. **Personalized Spending Suggestions**  
+c. **Personalized Spending Suggestions**  
    - Based on their spending patterns, users receive actionable advice to help them save money and make informed financial choices.
