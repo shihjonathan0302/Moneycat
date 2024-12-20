@@ -42,7 +42,7 @@ c. **Personalized Spending Suggestions**
 The **KANO Model** is a framework we use to analyze and categorize user needs. It allows us to evaluate the impact of different features on user satisfaction and prioritize their implementation. The model breaks down features into the following categories:
 
 ### 1. KANO Model Overview
-![KANO Model Diagram](path_to_Kano_Model_Dimensions-1024x642.jpg)
+![KANO Model Diagram](問卷調查結果/Kano_Model_Dimensions-1024x642.jpg)
 
 - **Basic Needs (Must-be Requirements):** These are essential features that users expect. Failing to meet these needs results in dissatisfaction, but meeting them does not necessarily lead to high satisfaction.
 - **Performance Needs (One-dimensional):** These needs directly impact satisfaction. The more these needs are fulfilled, the higher the satisfaction.
@@ -104,6 +104,5 @@ The following categories summarize user needs:
 - **Performance Needs:** Meeting these improves satisfaction proportionally.
 - **Attractive Needs:** Exceeding expectations with these features leads to delight and user loyalty.
 - **Indifferent Needs:** These features can be deprioritized.
-- **Reverse Needs:** Avoid overdoing these features as they may cause dissatisfaction.
 
 MoneyCat integrates the KANO Model to ensure we prioritize features that maximize user satisfaction while avoiding unnecessary features that don’t provide value.
