@@ -18,7 +18,7 @@ struct VerticalBarChartView: View {
 
                 if data.isEmpty {
                     // Handle empty data gracefully
-                    Text("No data available")
+                    Text("No Valid Data")
                         .foregroundColor(.gray)
                         .font(.headline)
                 } else {

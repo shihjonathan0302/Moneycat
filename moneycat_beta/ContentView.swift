@@ -36,25 +36,49 @@ struct ContentView: View {
             NavigationStack {
                 ReportsView()
             }
-            .tabItem { Label("Reports", systemImage: "chart.xyaxis.line") }
+            .tabItem {
+                VStack {
+                    Image("cat1_resized") // Use your custom image name here
+                        .renderingMode(.original) // 保留原始顏色
+//                    Text("Reports")
+                }
+            }
             .tag(1)
 
             NavigationStack {
                 AddExpenseView()
             }
-            .tabItem { Label("Add", systemImage: "plus.circle") }
+            .tabItem {
+                VStack {
+                    Image("cat2_resized") // Use your custom image name here
+                        .renderingMode(.original) // 保留原始顏色
+//                    Text("Reports")
+                }
+            }
             .tag(2)
 
             NavigationStack {
                 ExpensesView()
             }
-            .tabItem { Label("Expenses", systemImage: "list.bullet") }
+            .tabItem {
+                VStack {
+                    Image("cat3_resized") // Use your custom image name here
+                        .renderingMode(.original) // 保留原始顏色
+//                    Text("Reports")
+                }
+            }
             .tag(3)
 
             NavigationStack {
                 SettingsView()
             }
-            .tabItem { Label("Settings", systemImage: "gearshape") }
+            .tabItem {
+                VStack {
+                    Image("cat4_resized") // Use your custom image name here
+                        .renderingMode(.original) // 保留原始顏色
+//                    Text("Reports")
+                }
+            }
             .tag(4)
         }
         .onAppear {

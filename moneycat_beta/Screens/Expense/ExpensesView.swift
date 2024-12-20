@@ -62,7 +62,7 @@ struct ExpensesView: View {
                         .padding(.horizontal)
                 }
             } else {
-                Text("No expenses to display. Please add some expenses.")
+                Text("No Expense")
                     .padding()
             }
 
@@ -79,7 +79,7 @@ struct ExpensesView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.gray)
-                        TextField("Search by note", text: $searchQuery)
+                        TextField("Search", text: $searchQuery)
                             .foregroundColor(.primary)
                     }
                     .padding(10)
@@ -100,7 +100,7 @@ struct ExpensesView: View {
                     } label: {
                         HStack(spacing: 4) {
                             Image(systemName: "line.horizontal.3.decrease.circle")
-                            Text("Sort")
+                            Text("Filter")
                                 .font(.footnote)
                         }
                         .foregroundColor(.white)
@@ -134,7 +134,7 @@ struct ExpensesView: View {
         }
         .padding()
         .background(Color(.systemGray6))
-        .navigationTitle("Expenses")
+        .navigationTitle("Expense")
         .onReceive(realmManager.$updateTrigger) { _ in
             // Automatically refresh UI when expenses are updated
             print("Debug: updateTrigger fired, refreshing ExpensesView")

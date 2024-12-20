@@ -30,7 +30,7 @@ struct AddExpenseView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Amount")
                             .font(.headline)
-                        TextField("Enter amount", text: $expenseAmount)
+                        TextField("Enter Amount", text: $expenseAmount)
                             .keyboardType(.decimalPad) // Ensures number pad appears
                             .padding(12)
                             .background(Color(.systemGray6))
@@ -88,7 +88,7 @@ struct AddExpenseView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Date").font(.headline)
                         HStack {
-                            Text("Select Date")
+                            Text("Choose Date")
                                 .foregroundColor(.gray)
                             Spacer()
                             DatePicker("", selection: $date, displayedComponents: [.date])
@@ -109,7 +109,7 @@ struct AddExpenseView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Note")
                             .font(.headline)
-                        TextField("Enter note", text: $expenseNote)
+                        TextField("Enter Note", text: $expenseNote)
                             .padding(12)
                             .background(Color(.systemGray6))
                             .cornerRadius(10)
