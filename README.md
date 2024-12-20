@@ -7,11 +7,11 @@
 Our survey of college students revealed two critical insights:
 1. **Do students track their spending?**
    - Approximately **46.7% of students track their spending**, while **53.3% do not**.  
-   ![Pie Chart - Spending Habit](path_to_pie_chart_1.jpg)
+   ![Pie Chart - Spending Habit](問卷調查結果/IMG_7608.JPG)
 
 2. **Does tracking spending change financial habits?**
    - Among those who do track their spending, only **51% successfully changed their financial habits**, while **49% did not**.  
-   ![Pie Chart - Change in Financial Habits](path_to_pie_chart_2.jpg)
+   ![Pie Chart - Change in Financial Habits](問卷調查結果/IMG_7609.JPG)
 
 These results show that while many students try to track their spending, doing so does not necessarily lead to meaningful changes in their financial habits.
 
