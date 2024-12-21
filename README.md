@@ -227,3 +227,45 @@ The Expense Overview Page provides users with a detailed and visualized breakdow
    - **Category:** Health  
 
 ---
+## 4. Settings Page
+
+The Settings Page provides users with options to customize the app and manage their preferences effectively. It ensures the app adapts to individual needs, enhancing user experience.
+
+### Key Features:
+
+#### 1. Add Category
+   - Users can create their own categories by:
+     - **Selecting a color** for the category to make it distinct on the reports chart.
+     - **Naming the category**, allowing better tracking and customization.
+   - This feature ensures that reports are personalized and visually clear.  
+
+   Example:  
+   - A user can add a new category for “Books” and assign it a custom color to easily identify related expenses in the reports chart.  
+
+   <img src="Demo/Add_Category.gif" alt="Add Category Demo" width="400">
+
+---
+
+#### 2. Other Customization Options
+   The settings page includes additional features to manage the app:
+   - **Language Settings:** Choose the app’s language based on user preference.
+   - **Theme Settings:** Switch between different color themes to personalize the app’s appearance.
+   - **Notification Preferences:** Manage reminders and notifications for expense tracking.
+
+#### 3. Account and Data Management (Unfinished)
+   - **User Profile:** Manage account details and preferences.
+   - **Account Management:** Update or modify account settings.  
+   - **Erase All Data:** Clear all stored expenses and reset the app. This is useful for starting fresh or managing privacy.
+
+   <img src="Demo/Settings_Page.png" alt="Settings Page" width="400">
+
+---
+
+## Conclusion
+
+MoneyCat is designed to help users better understand and control their spending habits. Through features like customizable categories, insightful reports, and expense analysis powered by the KANO model, the app ensures that users can make informed financial decisions.
+
+### Why MoneyCat Stands Out:
+- Combines expense tracking with meaningful insights and actionable recommendations.
+- Offers a user-friendly interface tailored for college students.
+- Empowers users to categorize and visualize expenses effectively, enhancing financial literacy.
