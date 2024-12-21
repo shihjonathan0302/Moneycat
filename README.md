@@ -122,12 +122,14 @@ The Expense Overview Page provides users with a detailed and visualized breakdow
 1. **Interactive Bar Chart and Pie Chart Visualization**
    - **Bar Chart:** Displays overall spending trends across different time ranges (week, month, year). This chart is particularly useful for identifying patterns and monitoring spending over time.
    - **Pie Chart:** Offers a percentage breakdown of spending by category. This allows users to clearly understand the proportion of their expenses in areas like food, entertainment, or utilities.
-   ![Bar Chart Example](Demo/bar_chart.png)
-   ![Pie Chart Example](Demo/pie_chart.png)
+     
+   ![Bar Chart Example](Demo/Bar.png)
+   ![Pie Chart Example](Demo/Pie.png)
 
 2. **Top Box Summary**
    - **Total Spending:** The top box dynamically updates to show the total amount spent for the selected time range (week, month, or year).
    - **Top Spending Category:** Highlights the category where the highest expenditure occurred. For instance, if a user spent the most on "3C" during the month, the top category will display this result prominently.
+     
    ![Top Box](Demo/top_box.png)
 
 3. **Advanced Search and Filter Options**
@@ -136,6 +138,7 @@ The Expense Overview Page provides users with a detailed and visualized breakdow
      - Alphabetical order (A-Z or Z-A)
      - Expense amount (low-to-high or high-to-low)
      - Date of entry
+       
    ![Expense List](Demo/list.png)
 
 4. **Detailed Expense List**
@@ -149,6 +152,7 @@ The Expense Overview Page provides users with a detailed and visualized breakdow
    - **Title:** HI
    - **Amount:** $500
    - **Category:** Health
+     
  ![Expense Page](Demo/Expense_Page.gif)
 
 
