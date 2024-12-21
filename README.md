@@ -136,3 +136,31 @@ The Reports Page serves as the analytical hub of the app, where users can gain i
    - *Criteria:* High impact on satisfaction but not critical.  
    - *Suggestions:* These expenses enhance quality of life. Allocate your budget wisely but avoid overindulgence.  
    ![Recommendation Box](Demo/recomendation_box.png)
+
+## 2. Add Expense Page
+
+The Add Expense Page allows users to quickly and easily input their expenses, ensuring a seamless experience for tracking their spending.
+
+### Key Features:
+
+1. **Input Expense Details**
+   Users can input the following details for each expense:
+   - **Amount:** Specify the amount spent.
+   - **Category:** Choose a category for the expense (e.g., food, entertainment, transportation).
+   - **Date:** Select the date of the expense.
+   - **Note:** Add optional notes for additional context.
+   - **Need or Want:** Categorize the expense as a necessity or a discretionary item.
+
+   ![Add an Expense](Demo/Add_an_expense.gif)
+
+2. **User-friendly Interface**
+   The interface is designed to minimize friction:
+   - Dropdowns and pickers make selection quick and intuitive.
+   - Clear labeling ensures users can easily input and categorize their expenses.
+
+3. **Purpose**
+   This page lays the foundation for effective financial analysis by enabling accurate and consistent data entry. By distinguishing between "Needs" and "Wants," users gain a better understanding of their spending priorities.
+
+---
+
+Let me know if this fits your vision for the **Add Expense Page** or if you’d like any changes. We can proceed to the **Expense Overview Page** next!
