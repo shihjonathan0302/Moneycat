@@ -34,7 +34,7 @@ To address these gaps, our goal is to create an app that emphasizes **practicali
 ## KANO Model Analysis
 
 ### KANO Model Overview
-![KANO Model Diagram](問卷調查結果/Kano_Model_Dimensions-1024x642.jpg)
+<img src="問卷調查結果/Kano_Model_Dimensions-1024x642.jpg" alt="KANO" width="600">
 
 The **KANO Model** is a framework we use to analyze and categorize user needs. It allows us to evaluate the impact of different features on user satisfaction and prioritize their implementation. The model breaks down features into the following categories:
 - **Basic Needs (Must-be Requirements):** Essential features that users expect. Failing to meet these needs results in dissatisfaction.
@@ -77,9 +77,9 @@ The Reports Page serves as the analytical hub of the app, where users can gain i
 
 #### Key Features:
 
-1. **Analyze an Expense (GIF Demonstration)**  
+1. **Analyze an Expense**  
    Users can analyze an expense to determine its impact on their overall satisfaction and financial priorities. This is done through the KANO analysis process.  
-   ![Analyze an Expense](Demo/Analyze_an_Expense.gif)
+   <img src="Demo/Analyze_an_Expense.gif" alt="Analyze Expense" width="400">
 
 2. **Reports Chart**  
    The chart visualizes the user's expenses as colored dots based on their category. The chart dimensions are derived from the **Better-Worse coefficients** of each expense:
@@ -106,7 +106,7 @@ The Add Expense Page allows users to quickly and easily input their expenses, en
    - **Date:** Select the date of the expense.
    - **Note:** Add optional notes for additional context.
    - **Need or Want:** Categorize the expense as a necessity or a discretionary item.
-   ![Add an Expense](Demo/Add_an_expense.gif)
+   <img src="Add_an_expense.gif" alt="Add an Expense" width="400">
 
 2. **User-friendly Interface**
    The interface is designed to minimize friction:
@@ -123,8 +123,8 @@ The Expense Overview Page provides users with a detailed and visualized breakdow
    - **Bar Chart:** Displays overall spending trends across different time ranges (week, month, year). This chart is particularly useful for identifying patterns and monitoring spending over time.
    - **Pie Chart:** Offers a percentage breakdown of spending by category. This allows users to clearly understand the proportion of their expenses in areas like food, entertainment, or utilities.
      
-   ![Bar Chart Example](Demo/Bar.png)
-   ![Pie Chart Example](Demo/Pie.png)
+   <img src="Demo/Bar.png" alt="Bar Chart" width="400">
+   <img src="Demo/Pie.png" alt="Pie Chart" width="400">
 
 2. **Top Box Summary**
    - **Total Spending:** The top box dynamically updates to show the total amount spent for the selected time range (week, month, or year).
@@ -138,10 +138,10 @@ The Expense Overview Page provides users with a detailed and visualized breakdow
      - Alphabetical order (A-Z or Z-A)
      - Expense amount (low-to-high or high-to-low)
      - Date of entry
-       
-   ![Expense List](Demo/list.png)
 
-4. **Detailed Expense List**
+    <img src="Demo/list.png" alt="Expense List" width="400">
+
+5. **Detailed Expense List**
    - Below the charts, users can review a detailed list of all expenses for the selected time range.
    - Each entry includes:
      - **Expense Title**
@@ -153,7 +153,7 @@ The Expense Overview Page provides users with a detailed and visualized breakdow
    - **Amount:** $500
    - **Category:** Health
      
- ![Expense Page](Demo/Expense_Page.gif)
+ <img src="Demo/Expense_Page.gif" alt="Expense Page" width="400">
 
 
 ### Settings Page
@@ -167,7 +167,7 @@ The Settings Page provides users with options to customize the app and manage th
      - **Selecting a color** for the category to make it distinct on the reports chart.
      - **Naming the category**, allowing better tracking and customization.
    - This feature ensures that reports are personalized and visually clear.
-   ![Add Category](Demo/Add_Category.gif)
+   <img src="Demo/Add_Category.gif" alt="Add Category" width="400">
 
 2. **Other Customization Options**
    The settings page includes additional features to manage the app:
