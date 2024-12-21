@@ -178,7 +178,6 @@ The Expense Overview Page provides users with a detailed and visualized breakdow
 
    - **Pie Chart:**  
      Offers a percentage breakdown of spending by category. This allows users to clearly understand the proportion of their expenses in areas like food, entertainment, or utilities.  
-
    ![Bar Chart Example](Demo/bar_chart.png)  
    ![Pie Chart Example](Demo/pie_chart.png)
 
@@ -209,7 +208,7 @@ The Expense Overview Page provides users with a detailed and visualized breakdow
      - Expense amount (low-to-high or high-to-low)  
      - Date of entry  
 
-   ![expense list](Demo/expense_list.png)
+   ![expense list](Demo/list.png)
 
 ---
 
@@ -240,7 +239,7 @@ The Settings Page provides users with options to customize the app and manage th
    - This feature ensures that reports are personalized and visually clear.  
 
    Example:  
-   - A user can add a new category for “Books” and assign it a custom color to easily identify related expenses in the reports chart.  
+   - A user can add a new category for “Drink” and assign it a custom color to easily identify related expenses in the reports chart.  
 
    <img src="Demo/Add_Category.gif" alt="Add Category Demo" width="400">
 
