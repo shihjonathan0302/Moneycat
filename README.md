@@ -163,4 +163,67 @@ The Add Expense Page allows users to quickly and easily input their expenses, en
 
 ---
 
-Let me know if this fits your vision for the **Add Expense Page** or if you’d like any changes. We can proceed to the **Expense Overview Page** next!
+## 3. Expense Overview Page
+
+The Expense Overview Page provides users with a detailed and visualized breakdown of their spending habits. It combines clear summaries, interactive charts, and advanced filtering options to ensure ease of use and financial insight.
+
+   <img src="path_to_gif.gif" alt="Bar Chart and Pie Chart GIF" width="400">
+
+### Key Features:
+
+#### 1. Interactive Bar Chart and Pie Chart Visualization
+   - **Bar Chart:**  
+     Displays overall spending trends across different time ranges (week, month, year). This chart is particularly useful for identifying patterns and monitoring spending over time.  
+     Example: A user can quickly see if their spending increased significantly in a specific category during the current month.
+
+   - **Pie Chart:**  
+     Offers a percentage breakdown of spending by category. This allows users to clearly understand the proportion of their expenses in areas like food, entertainment, or utilities.  
+
+   ![Bar Chart Example](Demo/bar_chart.png)  
+   ![Pie Chart Example](Demo/pie_chart.png)
+
+---
+
+#### 2. Top Box Summary
+   - **Total Spending:**  
+     The top box dynamically updates to show the total amount spent for the selected time range (week, month, or year).  
+
+   - **Top Spending Category:**  
+     Highlights the category where the highest expenditure occurred. For instance, if a user spent the most on "3C" during the month, the top category will display this result prominently.
+
+ ![Top Box](Demo/top_box.png)
+
+
+   Example:  
+   - Total: **$2,440**  
+   - Top Category: **3C**  
+
+---
+
+#### 3. Advanced Search and Filter Options
+   - **Search Bar:**  
+     Users can search for specific expenses by keywords, such as "groceries" or "rent."  
+   - **Filter Options:**  
+     Filters allow users to organize their expenses based on criteria like:
+     - Alphabetical order (A-Z or Z-A)  
+     - Expense amount (low-to-high or high-to-low)  
+     - Date of entry  
+
+   ![expense list](Demo/expense_list.png)
+
+---
+
+#### 4. Detailed Expense List
+   - Below the charts, users can review a detailed list of all expenses for the selected time range.  
+   - Each entry includes:  
+     - **Expense Title**  
+     - **Amount**  
+     - **Category**  
+     - **Additional Notes**  
+
+   Example Entry:  
+   - **Title:** HI  
+   - **Amount:** $500  
+   - **Category:** Health  
+
+---
